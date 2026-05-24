@@ -7,10 +7,7 @@
     "light": "#FB923C",
     "dark": "#EA580C"
   },
-  "favicon": {
-    "light": "/favicon.svg",
-    "dark": "/favicon.svg"
-  },
+  "favicon": "/favicon.svg",
   "navigation": {
     "tabs": [
       {
@@ -66,7 +63,10 @@
       }
     ]
   },
-  "logo": "/logo/fidivio-logo.png",
+  "logo": {
+    "light": "/logo/fidivio-logo.png",
+    "dark": "/logo/fidivio-logo.png"
+  },
   "navbar": {
     "links": [
       {
@@ -89,5 +89,25 @@
       "copy"
     ],
     "display": "header"
+  },
+  "redirects": [],
+  "interaction": {
+    "drilldown": true
+  },
+  "errors": {
+    "404": {
+      "redirect": true,
+      "title": "Page Not",
+      "description": "The Page does exist or not found"
+    }
+  },
+  "metadata": {
+    "timestamp": true
+  },
+  "markdown": {
+    "schema": false
+  },
+  "thumbnails": {
+    "appearance": "dark"
   }
 }
