@@ -122,11 +122,6 @@
     "content": "banner"
   },
   "fonts": {
-    "heading": {
-      "family": "Aptos Display (Headings)"
-    },
-    "body": {
-      "family": "Aptos (Body)"
-    }
+    "family": "Aptos"
   }
 }
