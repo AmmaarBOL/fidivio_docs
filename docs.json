@@ -48,11 +48,11 @@
                 "group": "Background",
                 "pages": [
                   "technical-memo/background-ssp",
+                  "technical-memo/background-marketing-income",
+                  "technical-memo/background-breakage-income",
                   "technical-memo/background-contract-liability"
                 ]
               },
-              "technical-memo/background-marketing-income",
-              "technical-memo/background-breakage-income",
               "technical-memo/miscellaneous"
             ]
           }
