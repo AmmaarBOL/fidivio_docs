@@ -119,7 +119,9 @@
     "appearance": "dark"
   },
   "banner": {
-    "content": "banner"
+    "content": "Documentation In Progress...",
+    "dismissible": true,
+    "type": "info"
   },
   "fonts": {
     "family": "Aptos"
