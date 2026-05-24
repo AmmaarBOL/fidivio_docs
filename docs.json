@@ -117,5 +117,8 @@
   },
   "thumbnails": {
     "appearance": "dark"
+  },
+  "banner": {
+    "content": "banner"
   }
 }
