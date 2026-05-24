@@ -3,9 +3,9 @@
   "theme": "maple",
   "name": "Fidivio",
   "colors": {
-    "primary": "#7C3AED",
-    "light": "#A78BFA",
-    "dark": "#6D28D9"
+    "primary": "#F97316",
+    "light": "#FB923C",
+    "dark": "#EA580C"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -14,64 +14,15 @@
         "tab": "User Guide",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "User Guide",
             "pages": [
-              "index",
               "user-guide/introduction",
-              "user-guide/getting-started"
-            ],
-            "icon": "rocket"
-          },
-          {
-            "group": "Dashboard & Navigation",
-            "icon": "gauge",
-            "pages": [
-              "user-guide/dashboard"
-            ]
-          },
-          {
-            "group": "Loyalty Programs",
-            "icon": "star",
-            "pages": [
-              "user-guide/program-configuration",
-              "user-guide/earning-redemption"
-            ]
-          },
-          {
-            "group": "Member Management",
-            "icon": "users",
-            "pages": [
-              "user-guide/member-management",
-              "user-guide/member-tiers"
-            ]
-          },
-          {
-            "group": "Campaigns & Promotions",
-            "icon": "megaphone",
-            "pages": [
-              "user-guide/campaigns"
-            ]
-          },
-          {
-            "group": "Transactions",
-            "icon": "receipt",
-            "pages": [
-              "user-guide/transactions"
-            ]
-          },
-          {
-            "group": "Analytics & Reports",
-            "icon": "chart-bar",
-            "pages": [
-              "user-guide/analytics"
-            ]
-          },
-          {
-            "group": "Integrations & Settings",
-            "icon": "plug",
-            "pages": [
-              "user-guide/integrations",
-              "user-guide/settings"
+              "user-guide/getting-started",
+              "user-guide/platform-navigation",
+              "user-guide/program-setup",
+              "user-guide/partner-management",
+              "user-guide/user-role-management",
+              "user-guide/data-input"
             ]
           }
         ]
@@ -80,41 +31,21 @@
         "tab": "Technical Memorandum",
         "groups": [
           {
-            "group": "Overview",
-            "icon": "file-lines",
+            "group": "Technical Memorandum",
             "pages": [
-              "technical/overview"
-            ]
-          },
-          {
-            "group": "Architecture",
-            "icon": "diagram-project",
-            "pages": [
-              "technical/system-architecture",
-              "technical/data-model"
-            ]
-          },
-          {
-            "group": "Security & Compliance",
-            "icon": "shield",
-            "pages": [
-              "technical/security",
-              "technical/data-privacy"
-            ]
-          },
-          {
-            "group": "Integration Guide",
-            "icon": "code",
-            "pages": [
-              "technical/api-guide",
-              "technical/webhooks-guide"
-            ]
-          },
-          {
-            "group": "Performance & Scalability",
-            "icon": "rocket",
-            "pages": [
-              "technical/performance"
+              "technical-memo/introduction",
+              "technical-memo/change-control",
+              "technical-memo/components",
+              "technical-memo/configuration",
+              "technical-memo/inputs",
+              "technical-memo/calculations-outputs",
+              "technical-memo/configuration-effects-summary",
+              "technical-memo/accounting-definitions",
+              "technical-memo/background-ssp",
+              "technical-memo/background-contract-liability",
+              "technical-memo/background-marketing-income",
+              "technical-memo/background-breakage-income",
+              "technical-memo/miscellaneous"
             ]
           }
         ]
@@ -123,8 +54,7 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "Getting Started",
-            "icon": "book",
+            "group": "API Reference",
             "pages": [
               "api-reference/overview"
             ]
@@ -134,37 +64,20 @@
     ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/fidivio-light.png",
+    "dark": "/logo/fidivio-dark.png"
   },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:support@fidivio.com"
+        "label": "Website",
+        "href": "https://www.fidivio.com"
       }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "https://fidivio.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+    ]
   },
   "footer": {
     "socials": {
-      "linkedin": "https://linkedin.com/company/fidivio"
+      "website": "https://www.fidivio.com"
     }
   },
   "appearance": {

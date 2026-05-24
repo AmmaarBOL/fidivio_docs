@@ -1,0 +1,147 @@
+---
+title: "Fidivio Configuration"
+description: "The four configuration parameters that must be set before data is entered into Fidivio."
+---
+
+# Fidivio Configuration
+
+Before inputting data into the model, the user must select a number of settings in relation to the type of loyalty program, and the preferred accounting treatment. Under the current accounting rules, across a number of different areas, multiple approaches are allowed.
+
+The key parameters include:
+- The type of program (conventional or profit center)
+- The impact of changes to breakage and standalone selling prices
+- The protocol based on which the breakage income is recognized
+- The type of standalone selling price (adjusted for breakage or not)
+
+<Warning>
+These parameter settings in the configuration menu can only be set-up at the start. Once the program gets underway, the parameters cannot be changed.
+</Warning>
+
+---
+
+## 4.1 Parameter 1: Select the Type of Program
+
+Loyalty programs are generally run as one of two options:
+
+1. As a **profit center structure**
+2. As a **conventional model**
+
+Under the profit center structure, the program is run as a P&L. Points are sold to partners and rewards are purchased.
+
+Under the conventional model, the program is run as a cost center. No points are sold, and only revenue deferral takes place.
+
+### Option 1: Program is a Profit Center
+
+The program operates as a P&L, selling points to internal and external partners.
+
+### Option 2: Program Operates Under a Conventional Model
+
+The program issues points and focuses on liability management only.
+
+<Note>
+**No marketing income under the Conventional Model:** Marketing income is not computed under the conventional model (Parameter 1 = 2). Instead, the full consideration is allocated between goods and points using relative SSPs, and the goods portion is recognised as goods revenue.
+</Note>
+
+---
+
+## 4.2 Parameter 2: Select the Impact of Breakage and SSP Changes
+
+Under the second parameter, the user can select what happens when there are changes in the breakage outlook and/or the standalone selling price.
+
+### Option 1: No Automatic True-up (Default)
+
+Under this option, any changes to the liability are entered as a direct input (i.e. the user calculates the input, not the model), by entering a positive value to increase the liability or a negative value to release it. Estimate changes are absorbed gradually through the evolving `rev_per_point` rate rather than as a one-period catch-up.
+
+### Option 2: True-up for Breakage Rate Change
+
+Under this option, only when the SSP is adjusted for breakage (Parameter 4 is set to Option 1), a true up results from a reclassification of points from the 'expected to redeemed pool' to the 'expected not be redeemed pool' or vice versa.
+
+**Calculation: True-up for breakage rate change**
+
+```
+IF(Parameter 4 = 1), Breakage_adjustment_pts × SSP_before_breakage, 0)
+```
+
+*When Parameter 4 is 2 (SSP is not adjusted for breakage), the model provisions at full face-value SSP regardless of breakage rate, so a change in breakage rate does not alter the liability.*
+
+| Scenario | Effect |
+|---|---|
+| **Less breakage** (negative adj_pts) → points shifted from 'expected not to be redeemed pool' to 'expected to be redeemed pool' | Liability increases → P&L charge. Fewer points now expected to break; obligation topped up. |
+| **More breakage** (positive adj_pts) → points shifted from 'expected to be redeemed pool' to 'expected not to be redeemed pool' | Liability decreases → P&L gain. More points now expected to break; excess provision released. |
+| **When Parameter 4 = Option 2** (SSP not adjusted) | No impact from breakage change. Full face-value SSP already provisioned for every point; breakage rate change has no liability impact. |
+
+### Option 3: True-up for Breakage Rate Change and SSP Change
+
+When selecting option 3 under Parameter 2, the model, in addition to the impact of a change in breakage, also calculates the true-up resulting from a change in SSP.
+
+**Calculation: True-up for SSP change**
+
+```
+Outstanding_points(according to P4=1) × New_Applied_SSP − Current_liability_balance
+```
+
+Where `Current_liability_balance` = Liability before recognition – Revenue recognized Red – Revenue recognized Br
+
+**Direction:** A higher SSP produces a liability top-up (P&L charge). A lower SSP produces a liability release (P&L gain). Every outstanding point is revalued simultaneously.
+
+<Note>
+**Sign convention:** A positive adjustment to Deferred Revenue increases the liability. In the IFRS P&L, the Adjustment for liability true-up line is the inverse of the adjustment. So a positive liability increase produces a negative P&L line (a charge), and a negative liability release produces a positive P&L line (a gain).
+</Note>
+
+---
+
+## 4.3 Parameter 3: Select the Breakage Recognition Protocol
+
+The volume of breakage points recognized per period is determined by User Parameter 3 (protocol for Breakage Recognition). The user can select from one of three options.
+
+### Option 1: Proportional to Redemptions (Default)
+
+Under the first option, points that are expected to be broken are recognized as revenue in proportion to the redemptions materializing.
+
+**Calculation:**
+
+```
+Breakage_pts = Points_redeemed × (Total_pts_balance − Expected_to_redeem) ÷ Expected_to_redeem
+```
+
+### Option 2: Proportional to Points Validity
+
+Under the second option, points expected to be broken are recognized as revenue in proportion to the life expectancy. The users must input the validity of points, and the model proportionally recognizes them as time passes by.
+
+**Calculation:**
+
+```
+Breakage_pts = (Points_issued_per_cohort × Breakage_rate) ÷ Validity_months
+```
+
+*(summed across all active cohorts in the period)*
+
+*Spreads each cohort's expected breakage evenly over its validity window. Requires a validity period input from the user.*
+
+### Option 3: Actual Expiry
+
+Under option 3 (the most conservative option), only when the points actually expire, the corresponding breakage income is recognized. This model is mostly applicable to programs with a fixed validity period.
+
+**Calculation:**
+
+```
+Breakage_pts = Points_expired
+```
+
+*No forward estimate. Breakage income only arises when points are formally removed from member accounts.*
+
+---
+
+## 4.4 Parameter 4: Select the Type of SSP
+
+Fidivio requires the standalone selling price per point to perform its calculations. Under parameter 4, the user can set whether the applied SSP is adjusted for breakage or not.
+
+**Regardless of the option chosen, the SSP data input should be at face value.**
+
+### Option 1: The Applied SSP is Adjusted for Breakage
+
+Under this option, the Deferred revenue for issued points is calculated based on the standalone selling price of a point, adjusted for the estimated likelihood of redemption.
+
+### Option 2: The Applied SSP is Not Adjusted for Breakage
+
+Under this option, the Deferred revenue for issued points is calculated based on the standalone selling price of a point, without making any adjustment for the estimated likelihood of redemption.

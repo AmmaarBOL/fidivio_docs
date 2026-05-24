@@ -1,0 +1,22 @@
+---
+title: "Summary of Configuration Effects"
+description: "How each of the four parameters affects each P&L line item."
+---
+
+# Summary of Configuration Effects
+
+The table below summarises how each of the four configuration parameters affects each P&L line item. A checkmark (✓) indicates the parameter directly affects that line. "Indirect" means the effect is via another mechanism.
+
+| P&L Line | Parameter 1: Program type | Parameter 2: True-up protocol | Parameter 3: Breakage protocol | Parameter 4: SSP selection | Nature of effect |
+|---|---|---|---|---|---|
+| **Revenue (redemptions)** | ✓ | ✓ | ✓ | Indirect | P1 changes the contract liability base. P2 true-ups shift the liability balance. P3 changes the computation logic for breakage income. P4 changes Applied SSP and therefore rev_per_point. |
+| **Breakage income** | – | – | ✓ | Indirect | P3 directly controls the volume and timing of breakage points released. P4 affects rev_per_point (same rate used for both redemption and breakage revenue). |
+| **Marketing income** | ✓ | – | – | ✓ | P1=2 disables marketing income entirely. P4 changes the Applied SSP used in the yield-SSP comparison; a lower Applied SSP (P4=1) creates higher marketing income for a given yield. |
+| **Liability true-up** | – | ✓ | – | ✓ | P2 directly controls whether this line is populated and by which method. P4=2 suppresses the P2=2 true-up because a change in breakage rate does not affect the gross-SSP liability. |
+| **Non-points revenues** | – | – | – | – | Unaffected. Direct input, recognised immediately in both P&Ls. |
+| **Cost of redemptions** | – | – | – | – | Unaffected. Actual cost = points_redeemed × CPP in both P&Ls. |
+| **Program running costs** | – | – | – | – | Unaffected. Direct input in both P&Ls. |
+| **Gross Billings** | – | – | – | – | Unaffected. Always = points_issued × yield. Independent of accounting configuration. |
+| **Adj 1 (Redemption pattern)** | – | – | – | – | Driven by actual vs expected redemption volumes and current CPP. No dependency on accounting settings. |
+| **Adj 2 (CPP change)** | – | – | – | – | Driven by the change in CPP between periods and outstanding points. No dependency on accounting settings. |
+| **Adj 3 (Breakage change)** | – | – | – | – | Driven by the adjustment_to_breakage input and current CPP. Independent of P2 and P3 accounting settings. |

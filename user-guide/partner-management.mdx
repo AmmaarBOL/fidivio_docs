@@ -1,0 +1,45 @@
+---
+title: "Partner Management"
+description: "How to add, configure, and manage partner organisations within Fidivio."
+---
+
+# Partner Management
+
+Partners are the external organisations that issue and/or redeem points within your loyalty program — such as airlines, retailers, hotels, or financial services companies. Each partner must be configured in Fidivio before any data referencing that partner can be uploaded.
+
+Partner Management is accessible via **Setup & Support → Partners**.
+
+---
+
+## Adding a New Partner
+
+1. Navigate to **Setup & Support → Partners**.
+2. Click **+ Add Partner** in the top right corner.
+3. Enter the required details:
+
+| Field | Description | Required |
+|---|---|---|
+| **Partner Name** | The full legal or trading name of the partner organisation. | Yes |
+| **Partner Code** | A short unique identifier used in data uploads (e.g. AIRX, BANK01). Must match exactly in all CSV imports — case-sensitive. | Yes |
+| **Category** | The partner category (e.g. Finance, Airline, Retail). To create a new category, type the name in the Search box and click **Create New**. | Yes |
+| **Partner Location** | The geographic location of the partner. | Optional |
+| **Partner Status** | Set to **Active** or **Inactive**. Only Active partners will appear in manual Data Input dropdowns. CSV batch uploads referencing an Inactive partner's code will be rejected — set the partner to Active before uploading, then revert if needed. | Yes |
+| **Affiliation** | Select **Internal** if the partner is linked to the program operator's own company, or **External** for third-party partners. | Yes |
+| **Type** | Select whether the partner is an **Accrual** partner (issues points), a **Redemption** partner (fulfils rewards), or **Both**. | Yes |
+| **Start Date** | The commencement date of the partnership. | Optional |
+| **End Date** | The end date of the partnership. Typically populated for Inactive partners. | Optional |
+| **Program / Company Logo** | Upload the partner's logo. Displayed on the Partner Dashboard. | Optional |
+
+4. Click **Save**. The partner will now appear in the Partners list and become available in the Partner dropdown of the manual Data Input entry forms.
+
+<Tip>
+Establish a naming convention for partner codes before you begin uploading data, as they cannot be changed retroactively without re-uploading affected records.
+</Tip>
+
+---
+
+## Editing Partner Details
+
+1. On the Partners screen, click the **edit (pen) icon** on the partner's row.
+2. Update the relevant fields as needed.
+3. Click **Save** to apply the changes.

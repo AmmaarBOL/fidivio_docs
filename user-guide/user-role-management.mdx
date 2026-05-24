@@ -1,0 +1,89 @@
+---
+title: "User & Role Management"
+description: "How to manage users, roles, and access permissions in Fidivio."
+---
+
+# User & Role Management
+
+This section covers how to manage the people and organisations that have access to Fidivio. All management functions are accessed via **Setup & Support → Configuration**, except for Partner Management which is accessed via **Setup & Support → Partners**.
+
+---
+
+## 5.1 Role Management
+
+Roles define what actions a user is permitted to perform within Fidivio. Each role is a named collection of access permissions that can be assigned to one or more users.
+
+Role Management is accessible to eligible users via **Setup & Support → Configuration → Role Management**.
+
+### Viewing Roles and Permissions
+
+The Role Management screen displays all roles that have been created for your organisation. To inspect the permissions attached to any role, click the **eye icon** on that role's row. A panel will open showing the full list of activities that users in that role are permitted to perform.
+
+### Creating a New Role
+
+1. Navigate to **Setup & Support → Configuration → Role Management**.
+2. Click **+ Create Role** in the top right corner.
+3. Enter a **Role Title** that clearly describes the intended user group (e.g. Finance Analyst, Read-Only Auditor, Program Manager).
+4. Review the list of available activities and check the boxes for each activity this role should be permitted to perform. Activities are grouped by module (e.g. Data Input, Configuration, Reports).
+5. Click **Create Role** to save. The new role will immediately appear in the Role Management list and become available for assignment in User Management.
+
+<Tip>
+Design roles around job functions, not individuals. A well-named role like 'Finance Analyst' is easier to maintain than one named after a specific person, and can be reused as your team grows.
+</Tip>
+
+### Editing a Role
+
+1. On the Role Management screen, click the **edit (pen) icon** on the role you wish to update.
+2. Modify the Role Title or adjust the selected activity permissions as needed.
+3. Click **Save** to apply changes. All users currently assigned to this role will inherit the updated permissions immediately.
+
+<Warning>
+Changes to a role's permissions apply retroactively to all users assigned that role. Review the impact carefully before removing permissions from an active role.
+</Warning>
+
+---
+
+## 5.2 User Management
+
+User Management allows eligible administrators to add new platform users, update their details, and manage account security. It is accessible via **Setup & Support → Configuration → User Management**.
+
+The User Management screen lists all users in your organisation, along with their assigned role, email, and account status.
+
+### Adding a New User
+
+1. Navigate to **Setup & Support → Configuration → User Management**.
+2. Click **+ Add User** in the top right corner.
+3. Complete the required fields: **First Name**, **Last Name**, **Email Address**, and **Role**. The email address will be the user's login credential.
+4. Click **Add User** to confirm.
+
+The newly added user will receive an automated email invitation to set up their password and configure their two-factor authentication (2FA) app. They must complete this setup before they can log in.
+
+<Info>
+The invitation email is sent from a Fidivio system address. Ask new users to check their spam or junk folder if the email does not arrive within a few minutes.
+</Info>
+
+### Editing User Details
+
+1. On the User Management screen, click the **edit (pen) icon** on the user's row.
+2. Update the relevant fields — name, email address, or assigned role.
+3. Click **Update Details** to save your changes.
+
+<Note>
+Changing a user's assigned role takes effect immediately. The user's access permissions will update on their next page load or login.
+</Note>
+
+### Resetting a Password or 2FA
+
+1. On the User Management screen, click the **more options (three dots) icon** on the user's row.
+2. Select the appropriate option: **Reset Password** or **Reset 2FA**.
+3. The user will receive an email with instructions to complete the reset.
+
+Use **Reset 2FA** when a user has changed or lost their authentication device. The user will be prompted to re-register their authenticator app on next login.
+
+### Deactivating a User Account
+
+1. Click the **three-dots icon** on the user's row.
+2. Select **Deactivate Account**.
+3. Confirm the action when prompted.
+
+Deactivated users cannot log in but their historical activity and data contributions are retained. Accounts can be reactivated by an administrator at any time.

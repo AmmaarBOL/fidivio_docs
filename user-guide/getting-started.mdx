@@ -1,124 +1,37 @@
 ---
 title: "Getting Started"
-description: "Set up your Fidivio account and launch your first loyalty program"
-icon: "rocket"
+description: "How to log in and complete the initial admin setup for Fidivio."
 ---
 
-# Getting Started with Fidivio
+# Getting Started
 
-This guide walks you through the initial setup of your Fidivio account and helps you configure your first loyalty program.
+## 1.1 Logging In
 
-## Prerequisites
+### First-Time Sign In (Setup Required)
 
-Before you begin, ensure you have:
+1. Go to the Fidivio login page in your web browser.
+2. Enter your registered email address and password, then click **Login**.
+3. You will be prompted to set up your authenticator app for two-factor authentication (2FA).
+4. Scan the QR code using your authenticator app (e.g. Google Authenticator, Microsoft Authenticator).
+5. Enter the 6-digit verification code displayed in your app to complete setup.
 
-- A Fidivio account (contact [sales@fidivio.com](mailto:sales@fidivio.com) to get started)
-- Administrator credentials for your organization
-- Basic understanding of your loyalty program goals
+### Subsequent Sign Ins
 
-## Step 1: Log In to Fidivio
+1. Enter your email and password, then click **Login**.
+2. Enter the 6-digit code from your authenticator app when prompted.
 
-<Steps>
-  <Step title="Access the Platform">
-    Navigate to your Fidivio instance URL provided during onboarding (e.g., `https://your-org.fidivio.com`).
-  </Step>
-  <Step title="Enter Credentials">
-    Enter your administrator email and password. For first-time login, use the temporary credentials sent to your email.
-  </Step>
-  <Step title="Change Your Password">
-    On first login, you will be prompted to set a new secure password. Passwords must be at least 12 characters and include uppercase, lowercase, numbers, and special characters.
-  </Step>
-  <Step title="Configure MFA (Recommended)">
-    Enable Multi-Factor Authentication under **Settings \> Security** for enhanced account protection.
-  </Step>
-</Steps>
+<Info>
+If you forget your password, click **Forgot Password** on the login screen. A reset link will be sent to your registered email address within a few minutes. If you have lost access to your 2FA device, contact your Administrator to reset your 2FA.
+</Info>
 
-## Step 2: Configure Your Organization
+---
 
-After login, navigate to **Settings \> Organization** to configure:
+## 1.2 Initial Setup Checklist (Admin)
 
-| Setting | Description |
-| --- | --- |
-| Organization Name | Your brand name as displayed to members |
-| Base Currency | Primary currency for program transactions |
-| Default Language | Platform and member-facing language |
-| Time Zone | Used for campaign scheduling and reporting |
-| Program Type | Points-based, tier-based, or hybrid |
+Complete these steps in order before using the platform:
 
-## Step 3: Set Up Your Loyalty Program
-
-<Steps>
-  <Step title="Navigate to Programs">
-    Go to **Loyalty \> Programs** and click **Create New Program**.
-  </Step>
-  <Step title="Define Program Basics">
-    Set the program name, description, start date, and earning structure.
-  </Step>
-  <Step title="Configure Earning Rules">
-    Define how members earn points — per transaction value, per item, or per event.
-  </Step>
-  <Step title="Set Up Redemption">
-    Configure how members can redeem rewards — vouchers, discounts, products, or partner rewards.
-  </Step>
-  <Step title="Define Tiers (Optional)">
-    Create membership tiers (e.g., Silver, Gold, Platinum) with qualification criteria and tier benefits.
-  </Step>
-  <Step title="Publish Your Program">
-    Review your configuration and click **Publish** to make the program live.
-  </Step>
-</Steps>
-
-## Step 4: Integrate Your Systems
-
-Connect Fidivio to your existing tech stack:
-
-<CardGroup cols={2}>
-  <Card title="POS Integration" icon="cash-register" href="/user-guide/integrations">
-    Connect your point-of-sale system for in-store transaction processing.
-  </Card>
-
-  <Card title="E-Commerce" icon="shopping-cart" href="/user-guide/integrations">
-    Integrate with Shopify, Magento, WooCommerce, and more.
-  </Card>
-
-  <Card title="Mobile App" icon="mobile" href="/user-guide/integrations">
-    Add loyalty features to your mobile app via SDK.
-  </Card>
-
-  <Card title="API Integration" icon="code" href="/api-reference/overview">
-    Use our REST API for custom integrations.
-  </Card>
-</CardGroup>
-
-## Step 5: Enroll Your First Members
-
-You can enroll members through:
-
-- **Bulk Import**: Upload a CSV file via **Members \> Import**
-- **API Enrollment**: Use the Member Enrollment API
-- **Self-Registration**: Enable member self-signup on your website or app
-- **In-Store Enrollment**: Register members at POS terminals
-
-<Note>
-  After your first member is enrolled, they will appear in **Members \> All Members** and start accumulating points on qualifying transactions.
-</Note>
-
-## Next Steps
-
-<CardGroup cols={2}>
-  <Card title="Dashboard Overview" icon="gauge" href="/user-guide/dashboard">
-    Learn to navigate the Fidivio dashboard
-  </Card>
-
-  <Card title="Program Configuration" icon="gear" href="/user-guide/program-configuration">
-    Deep-dive into program settings
-  </Card>
-
-  <Card title="Member Management" icon="users" href="/user-guide/member-management">
-    Manage your loyalty members
-  </Card>
-
-  <Card title="Campaigns" icon="megaphone" href="/user-guide/campaigns">
-    Create your first campaign
-  </Card>
-</CardGroup>
+1. **Set up the Program:** Setup & Support → Configuration → Program Setup
+2. **Set up Partners:** Setup & Support → Partners
+3. **Set up Users and Roles:** Setup & Support → Configuration → User Management and Role Management
+4. **Input historical or current program data** via Data Input
+5. **Review the Dashboards** — all key metrics should begin populating
