@@ -64,8 +64,8 @@
     ]
   },
   "logo": {
-    "light": "/logo/fidivio-light.png",
-    "dark": "/logo/fidivio-dark.png"
+    "light": "/logo/fidivio-logo.png",
+    "dark": "/logo/fidivio-logo.png"
   },
   "navbar": {
     "links": [
