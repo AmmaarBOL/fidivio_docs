@@ -1,0 +1,285 @@
+---
+title: "API Integration Guide"
+description: "Comprehensive guide to integrating with the Fidivio REST API"
+icon: "code"
+---
+
+# API Integration Guide
+
+This guide covers everything you need to know to integrate your systems with the Fidivio REST API.
+
+## Base URL
+
+```text
+https://api.fidivio.com/v1
+```
+
+Sandbox environment:
+
+```text
+https://sandbox-api.fidivio.com/v1
+```
+
+## Authentication
+
+All requests require an API key in the Authorization header:
+
+```bash
+curl https://api.fidivio.com/v1/members \
+  -H "Authorization: Bearer fidivio_live_YOUR_KEY_HERE" \
+  -H "Content-Type: application/json"
+```
+
+Generate API keys at **Settings \> API Keys**.
+
+## Request Format
+
+- All requests and responses use **JSON**
+- All timestamps use **ISO 8601** format (`2026-05-24T10:30:00Z`)
+- All monetary values use **decimal strings** (e.g., `"75.50"`)
+- All currency codes use **ISO 4217** (e.g., `"USD"`, `"EUR"`)
+
+## Response Format
+
+### Success Response
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "meta": {
+    "request_id": "req_abc123",
+    "timestamp": "2026-05-24T10:30:00Z"
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "MEMBER_NOT_FOUND",
+    "message": "No member found with the provided identifier",
+    "details": {
+      "identifier": "email",
+      "value": "user@example.com"
+    }
+  },
+  "meta": {
+    "request_id": "req_abc123",
+    "timestamp": "2026-05-24T10:30:00Z"
+  }
+}
+```
+
+## Core API Workflows
+
+### 1. Enroll a Member
+
+```bash
+POST /v1/members
+Content-Type: application/json
+
+{
+  "email": "jane.smith@example.com",
+  "first_name": "Jane",
+  "last_name": "Smith",
+  "phone": "+14155550100",
+  "date_of_birth": "1990-03-15",
+  "program_code": "LOYALTY_MAIN",
+  "external_id": "CRM_12345"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "member_id": "mem_xyz789",
+    "membership_number": "LJ000001234",
+    "points_balance": 0,
+    "tier": "standard",
+    "enrolled_at": "2026-05-24T10:30:00Z"
+  }
+}
+```
+
+### 2. Record an Earn Transaction
+
+```bash
+POST /v1/transactions/earn
+X-Idempotency-Key: ORDER_98765
+Content-Type: application/json
+
+{
+  "member_identifier": {
+    "type": "email",
+    "value": "jane.smith@example.com"
+  },
+  "program_code": "LOYALTY_MAIN",
+  "transaction_value": "125.00",
+  "currency": "USD",
+  "external_reference": "ORDER_98765",
+  "channel": "pos",
+  "location_code": "STORE_001",
+  "timestamp": "2026-05-24T10:30:00Z",
+  "line_items": [
+    {
+      "sku": "PROD_001",
+      "quantity": 2,
+      "unit_price": "50.00",
+      "category": "Electronics"
+    },
+    {
+      "sku": "PROD_002",
+      "quantity": 1,
+      "unit_price": "25.00",
+      "category": "Accessories"
+    }
+  ]
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "transaction_id": "txn_abc123",
+    "points_earned": 150,
+    "points_balance": 150,
+    "pending_balance": 150,
+    "bonus_points": 50,
+    "applied_rules": [
+      {
+        "rule_id": "rule_001",
+        "rule_name": "Base Earning",
+        "points": 100
+      },
+      {
+        "rule_id": "rule_002",
+        "rule_name": "Electronics Bonus",
+        "points": 50
+      }
+    ]
+  }
+}
+```
+
+### 3. Check Points Balance
+
+```bash
+GET /v1/members/mem_xyz789/balance?program_code=LOYALTY_MAIN
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "member_id": "mem_xyz789",
+    "program_code": "LOYALTY_MAIN",
+    "confirmed_balance": 500,
+    "pending_balance": 150,
+    "total_balance": 650,
+    "lifetime_earned": 1500,
+    "lifetime_redeemed": 1000,
+    "tier": "silver",
+    "tier_progress": {
+      "current_value": 750.00,
+      "next_tier": "gold",
+      "next_tier_threshold": 1500.00,
+      "remaining": 750.00
+    }
+  }
+}
+```
+
+### 4. Redeem Points
+
+```bash
+POST /v1/transactions/redeem
+X-Idempotency-Key: REDEEM_54321
+Content-Type: application/json
+
+{
+  "member_id": "mem_xyz789",
+  "program_code": "LOYALTY_MAIN",
+  "points_to_redeem": 200,
+  "redemption_type": "discount",
+  "external_reference": "ORDER_54321",
+  "channel": "pos"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "transaction_id": "txn_red456",
+    "points_redeemed": 200,
+    "discount_value": "2.00",
+    "currency": "USD",
+    "voucher_code": "DISC-JANE-7X9K",
+    "remaining_balance": 300
+  }
+}
+```
+
+## Error Codes
+
+| Code | HTTP Status | Description |
+| --- | --- | --- |
+| `UNAUTHORIZED` | 401 | Invalid or missing API key |
+| `FORBIDDEN` | 403 | Insufficient permissions |
+| `MEMBER_NOT_FOUND` | 404 | Member doesn’t exist |
+| `PROGRAM_NOT_FOUND` | 404 | Program code doesn’t exist |
+| `INSUFFICIENT_BALANCE` | 422 | Not enough points to redeem |
+| `IDEMPOTENCY_CONFLICT` | 409 | Duplicate idempotency key with different payload |
+| `RATE_LIMIT_EXCEEDED` | 429 | Too many requests |
+| `VALIDATION_ERROR` | 400 | Invalid request payload |
+| `INTERNAL_ERROR` | 500 | Server-side error |
+
+## Pagination
+
+List endpoints return paginated results:
+
+```bash
+GET /v1/members?limit=50&cursor=cursor_xyz
+```
+
+**Response:**
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "next_cursor": "cursor_abc",
+    "has_more": true,
+    "total": 15420
+  }
+}
+```
+
+Use `next_cursor` as the `cursor` parameter in the next request.
+
+## Sandbox Environment
+
+Use the sandbox for development and testing:
+
+- Use `fidivio_test_` API keys
+- Transactions do not affect real member accounts
+- Full API parity with production
+- Test webhook delivery via the sandbox
+
+<Tip>
+  Use the sandbox with realistic test data volumes to validate performance before going live. The sandbox supports up to 100 req/sec for load testing.
+</Tip>

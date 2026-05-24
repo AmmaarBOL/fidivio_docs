@@ -1,0 +1,173 @@
+---
+title: "Security"
+description: "Security architecture, authentication, encryption, and compliance for Fidivio"
+icon: "shield"
+---
+
+# Security
+
+Fidivio is built with a security-first mindset. This document describes the security architecture, authentication mechanisms, encryption standards, and compliance certifications.
+
+## Authentication
+
+### API Authentication
+
+All API requests must include a valid API key in the Authorization header:
+
+```bash
+Authorization: Bearer fidivio_live_xxxxxxxxxxxxxxxxxxxx
+```
+
+**API Key Types:**
+
+| Type | Prefix | Use Case |
+| --- | --- | --- |
+| Live Key | `fidivio_live_` | Production transactions |
+| Test Key | `fidivio_test_` | Development and testing |
+| Restricted Key | `fidivio_rk_` | Read-only or scoped access |
+
+### OAuth 2.0 (Admin Console)
+
+The admin console uses OAuth 2.0 with OpenID Connect:
+
+- **Authorization Code Flow** for web applications
+- **PKCE** enforced for all OAuth flows
+- **JWT tokens** with 1-hour expiry
+- **Refresh tokens** with 30-day rolling expiry
+
+### Multi-Factor Authentication
+
+MFA is supported via:
+
+- TOTP authenticator apps (Google Authenticator, Authy, 1Password)
+- SMS OTP
+- Email OTP
+- Hardware security keys (WebAuthn/FIDO2)
+
+## Authorization
+
+### Role-Based Access Control (RBAC)
+
+Fidivio implements fine-grained RBAC:
+
+- Roles are defined at the organization level
+- Each role has a set of permissions (resource \+ action)
+- Users are assigned one or more roles
+- API keys have scopes that map to permissions
+
+**Permission Format**: `resource:action`
+
+Examples:
+
+- `members:read` — Read member data
+- `members:write` — Create/update members
+- `transactions:create` — Submit transactions
+- `reports:export` — Export report data
+- `settings:admin` — Modify organization settings
+
+### Tenant Isolation
+
+All data is scoped by `organization_id`:
+
+- Every database query includes an organization\_id filter
+- API keys are bound to a single organization
+- Cross-tenant data access is architecturally impossible
+- Separate encryption keys per tenant (for enterprise plans)
+
+## Encryption
+
+### Data in Transit
+
+- All traffic encrypted with **TLS 1.2\+** (TLS 1.3 preferred)
+- TLS 1.0 and 1.1 are disabled
+- HSTS enforced on all endpoints
+- Certificate pinning available for mobile SDKs
+
+### Data at Rest
+
+- Database encryption: **AES-256** at the storage level
+- Field-level encryption for PII: email, phone, date of birth
+- Encryption keys managed via AWS KMS / Azure Key Vault
+- Per-tenant key isolation for enterprise deployments
+
+### PII Handling
+
+Personally Identifiable Information is handled according to privacy best practices:
+
+- PII fields are encrypted with tenant-specific keys
+- PII is excluded from application logs
+- PII is masked in non-production environments
+- Right-to-erasure requests supported via API
+
+## Network Security
+
+### API Rate Limiting
+
+| Endpoint Type | Default Limit |
+| --- | --- |
+| Transaction endpoints | 1,000 req/min per key |
+| Member read endpoints | 5,000 req/min per key |
+| Reporting endpoints | 100 req/min per key |
+| Bulk operations | 10 req/min per key |
+
+Enterprise customers can request higher rate limits.
+
+### IP Allowlisting
+
+Restrict API access to specific IP addresses or CIDR ranges:
+
+```bash
+PATCH /v1/organization/security
+{
+  "ip_allowlist": ["203.0.113.0/24", "198.51.100.5"]
+}
+```
+
+### DDoS Protection
+
+- All endpoints protected by CloudFlare / AWS Shield
+- Automatic traffic scrubbing at the network layer
+- Anomaly detection triggers automatic blocking
+
+## Compliance
+
+### Certifications
+
+| Certification | Status |
+| --- | --- |
+| **SOC 2 Type II** | ✅ Certified |
+| **ISO 27001** | ✅ Certified |
+| **PCI DSS Level 1** | ✅ Compliant |
+| **GDPR** | ✅ Compliant |
+| **CCPA** | ✅ Compliant |
+
+### GDPR Compliance
+
+Fidivio supports GDPR requirements:
+
+| Requirement | Implementation |
+| --- | --- |
+| **Right of Access** | `GET /v1/members/{id}/data-export` |
+| **Right to Erasure** | `DELETE /v1/members/{id}` (full anonymization) |
+| **Data Portability** | JSON export of all member data |
+| **Consent Management** | Consent records stored and auditable |
+| **Data Processing Agreement** | Available for all customers |
+
+### Audit Logging
+
+All sensitive operations are logged immutably:
+
+- Who performed the action (user ID)
+- What action was performed
+- What data was affected
+- Timestamp and IP address
+- Request ID for correlation
+
+Audit logs are stored for a minimum of 3 years and cannot be deleted by customers.
+
+## Penetration Testing
+
+- Annual third-party penetration tests
+- Continuous automated security scanning (SAST/DAST)
+- Bug bounty program for responsible disclosure
+- Immediate patching SLA for critical vulnerabilities (\< 24 hours)

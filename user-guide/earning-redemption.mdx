@@ -1,0 +1,158 @@
+---
+title: "Earning & Redemption"
+description: "Configure how members earn and redeem points in your loyalty program"
+icon: "coins"
+---
+
+# Earning & Redemption
+
+Understanding how points flow through your loyalty program is essential to designing an engaging and financially sound member experience.
+
+## Points Lifecycle
+
+```text
+Member Action
+     ↓
+Transaction Captured
+     ↓
+Earning Rules Applied
+     ↓
+Points Calculated & Issued
+     ↓
+Points Stored in Member Account
+     ↓
+Member Redeems Points
+     ↓
+Redemption Rules Applied
+     ↓
+Reward Issued / Discount Applied
+```
+
+## Points Earning
+
+### How Points Are Calculated
+
+When a transaction is processed, Fidivio:
+
+1. Identifies the member
+2. Retrieves all active earning rules
+3. Evaluates each rule against the transaction
+4. Calculates total points from all applicable rules
+5. Issues points to the member’s account
+6. Sends confirmation notification (if configured)
+
+### Earning Rule Priority
+
+When multiple rules apply, Fidivio uses the following logic:
+
+<Tabs>
+  <Tab title="Additive (Default)">
+    All applicable rules are summed. For example:
+
+    - Base rule: 1 pt / \$1 = 50 pts
+    - Category bonus: \+1 pt / \$1 on Electronics = \+50 pts
+    - Total: 100 pts
+  </Tab>
+  <Tab title="Best Rule">
+    Only the highest-value rule applies. This can be configured per program.
+  </Tab>
+  <Tab title="Priority-Based">
+    Rules are ranked; once a matching rule is found, lower-priority rules are skipped.
+  </Tab>
+</Tabs>
+
+### Pending vs. Confirmed Points
+
+| State | Description |
+| --- | --- |
+| **Pending** | Points issued but not yet available for redemption (waiting for return window) |
+| **Confirmed** | Points available for redemption |
+| **Expired** | Points past their validity period |
+| **Redeemed** | Points used for rewards |
+| **Reversed** | Points cancelled due to refund or adjustment |
+
+### Setting Point Confirmation Delay
+
+To account for returns and refunds, configure a confirmation delay:
+
+1. Go to **Loyalty \> Programs \> \[Your Program\] \> Settings**
+2. Set **Point Confirmation Delay** (e.g., 30 days)
+3. Points will show as "Pending" until the delay period passes
+
+## Points Redemption
+
+### Initiating a Redemption
+
+Members can redeem points through:
+
+- **Mobile App / Web Portal**: Self-service redemption
+- **POS Terminal**: Cashier-assisted redemption at checkout
+- **Customer Service**: Agent-assisted redemption via backoffice
+- **API**: Programmatic redemption via the Redemption API
+
+### Redemption Flow
+
+<Steps>
+  <Step title="Member Requests Redemption">
+    Member selects a reward or requests a discount at checkout.
+  </Step>
+  <Step title="Balance Check">
+    System verifies member has sufficient confirmed points.
+  </Step>
+  <Step title="Eligibility Check">
+    System checks redemption rules (minimum balance, eligible channels, blackout dates).
+  </Step>
+  <Step title="Points Deducted">
+    Points are deducted from the member’s balance atomically.
+  </Step>
+  <Step title="Reward Issued">
+    Voucher code, discount, or product fulfillment is initiated.
+  </Step>
+  <Step title="Confirmation">
+    Member receives confirmation via email/SMS/push notification.
+  </Step>
+</Steps>
+
+### Partial Redemption
+
+Fidivio supports partial point redemption — members can choose how many points to apply to a transaction while paying the remainder in cash. Enable this in **Program Settings \> Redemption \> Allow Partial Redemption**.
+
+## Manual Adjustments
+
+Administrators can manually adjust member point balances when needed.
+
+### Creating an Adjustment
+
+1. Go to **Transactions \> Adjustments \> \+ New Adjustment**
+2. Search for the member
+3. Select adjustment type:
+   - **Credit**: Add points to the member’s balance
+   - **Debit**: Remove points from the member’s balance
+4. Enter the adjustment amount
+5. Select a reason code
+6. Add a note (required for audit purposes)
+7. Submit for approval (if approval workflow is configured)
+
+<Warning>
+  Manual adjustments are recorded in the audit log and are visible to compliance teams. Always use accurate reason codes.
+</Warning>
+
+## Points Expiry
+
+### Expiry Notifications
+
+Automatically notify members before their points expire:
+
+1. Go to **Settings \> Notifications \> Points Expiry**
+2. Configure notification timing (e.g., 30, 14, 7 days before expiry)
+3. Customize the email/SMS template
+4. Enable the notification rule
+
+### Bulk Expiry Extension
+
+To extend points expiry for a segment of members:
+
+1. Go to **Members \> Segments** and select your target segment
+2. Click **Actions \> Extend Points Expiry**
+3. Set the new expiry date
+4. Confirm the action

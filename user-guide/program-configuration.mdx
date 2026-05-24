@@ -1,0 +1,157 @@
+---
+title: "Program Configuration"
+description: "Create and configure loyalty programs in Fidivio"
+icon: "gear"
+---
+
+# Program Configuration
+
+Fidivio supports multiple loyalty program types that can be configured to match your business model and customer engagement strategy.
+
+## Program Types
+
+<CardGroup cols={3}>
+  <Card title="Points-Based" icon="coins">
+    Members earn points on qualifying purchases and redeem them for rewards. Most flexible and widely used model.
+  </Card>
+
+  <Card title="Tier-Based" icon="layer-group">
+    Members progress through tiers (e.g., Silver, Gold, Platinum) based on spend or activity, unlocking better benefits at each level.
+  </Card>
+
+  <Card title="Hybrid" icon="shuffle">
+    Combines points and tiers — members earn points AND progress through tiers simultaneously.
+  </Card>
+</CardGroup>
+
+## Creating a New Program
+
+<Steps>
+  <Step title="Navigate to Programs">
+    Go to **Loyalty \> Programs** and click **\+ Create Program**.
+  </Step>
+  <Step title="Basic Information">
+    Fill in the program details:
+
+    - **Program Name**: Internal name for the program
+    - **Display Name**: Name shown to members
+    - **Description**: Brief description of the program
+    - **Program Type**: Points, Tier, or Hybrid
+    - **Currency Name**: What to call your points (e.g., "Points", "Miles", "Stars")
+    - **Currency Symbol**: Icon/abbreviation (e.g., "pts", "mi")
+  </Step>
+  <Step title="Validity Settings">
+    Configure point validity:
+
+    - **Points Expiry**: Enable/disable point expiration
+    - **Expiry Period**: Days/months after issuance before points expire
+    - **Expiry Type**: Rolling (from last activity) or Fixed (calendar date)
+  </Step>
+  <Step title="Program Dates">
+    Set the program active period:
+
+    - **Start Date**: When the program becomes active
+    - **End Date**: Optional end date (leave blank for ongoing)
+  </Step>
+  <Step title="Publish">
+    Click **Publish** to make the program live, or **Save as Draft** to continue editing later.
+  </Step>
+</Steps>
+
+## Earning Rules
+
+Earning rules define how members accumulate points.
+
+### Rule Types
+
+| Rule Type | Description | Example |
+| --- | --- | --- |
+| **Transaction Value** | Points per currency unit spent | 1 point per \$1 spent |
+| **Fixed Points** | Fixed points per transaction | 50 points per visit |
+| **Item-Based** | Points per specific product | 100 points for Product X |
+| **Category-Based** | Bonus points for product categories | 2x points on Electronics |
+| **Event-Based** | Points for non-purchase events | 200 points for profile completion |
+| **Referral** | Points for referring new members | 500 points per referral |
+
+### Creating an Earning Rule
+
+1. Go to **Loyalty \> Earning Rules \> \+ Add Rule**
+2. Select the rule type
+3. Configure parameters:
+   - **Points Ratio**: How many points per unit
+   - **Qualifying Conditions**: Minimum transaction value, member tier, product category
+   - **Multipliers**: Bonus point multipliers for special periods
+4. Set active dates and member segment applicability
+5. Save the rule
+
+<Note>
+  Multiple earning rules can apply to a single transaction. Fidivio calculates all applicable rules and issues the total points earned.
+</Note>
+
+## Redemption Rules
+
+Redemption rules define how members can use their points.
+
+### Redemption Types
+
+<AccordionGroup>
+  <Accordion title="Vouchers & Discounts">
+    Members redeem points for discount vouchers applied at checkout.
+
+    - **Conversion Rate**: Points required per $discount (e.g., 100 pts =$1)
+    - **Minimum Redemption**: Minimum points required per redemption
+    - **Maximum Redemption**: Cap on discount per transaction
+  </Accordion>
+
+  <Accordion title="Product Rewards">
+    Members redeem points for specific products from a rewards catalog.
+
+    - Configure SKUs and point costs in the **Rewards Catalog**
+    - Set stock limits and fulfillment method
+  </Accordion>
+
+  <Accordion title="Partner Rewards">
+    Points can be transferred to or redeemed with partner loyalty programs.
+
+    - Configure partner exchange rates
+    - Set minimum/maximum transfer amounts
+  </Accordion>
+
+  <Accordion title="Charity Donations">
+    Members donate their points to charitable causes.
+
+    - Configure donation amount equivalents
+    - Select approved charity partners
+  </Accordion>
+</AccordionGroup>
+
+## Tier Configuration
+
+If using a tier-based or hybrid program, configure membership tiers:
+
+### Tier Setup
+
+1. Go to **Loyalty \> Tiers \> \+ Add Tier**
+2. Configure each tier:
+
+| Field | Description |
+| --- | --- |
+| **Tier Name** | Display name (e.g., Silver, Gold, Platinum) |
+| **Entry Threshold** | Minimum qualifying value to enter tier |
+| **Qualification Metric** | Spend, transactions, or points earned |
+| **Qualification Period** | Rolling 12 months or calendar year |
+| **Downgrade Rule** | Automatic demotion if threshold not maintained |
+| **Grace Period** | Extra time given before downgrade |
+
+### Tier Benefits
+
+For each tier, configure exclusive benefits:
+
+- **Earning Multipliers**: Bonus points (e.g., Gold = 1.5x, Platinum = 2x)
+- **Exclusive Rewards**: Tier-only rewards in the catalog
+- **Service Benefits**: Priority support, free shipping, etc.
+- **Birthday Bonuses**: Special point awards on member birthdays
+
+<Tip>
+  Use meaningful tier names that resonate with your brand. For example, a coffee chain might use "Bean", "Brew", "Barista" instead of generic Silver/Gold/Platinum.
+</Tip>

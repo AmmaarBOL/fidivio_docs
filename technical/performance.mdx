@@ -1,0 +1,198 @@
+---
+title: "Performance & Scalability"
+description: "Performance benchmarks, scalability design, and optimization guidance for Fidivio"
+icon: "rocket"
+---
+
+# Performance & Scalability
+
+Fidivio is engineered to handle enterprise-scale loyalty programs with millions of members and high transaction volumes.
+
+## Performance Benchmarks
+
+### Transaction Processing
+
+| Metric | Value |
+| --- | --- |
+| **Peak Throughput** | 50,000 transactions/second |
+| **Average Latency (earn)** | 45ms p50, 120ms p95, 200ms p99 |
+| **Average Latency (redeem)** | 55ms p50, 150ms p95, 250ms p99 |
+| **Average Latency (balance check)** | 8ms p50, 25ms p95, 50ms p99 |
+| **Burst Capacity** | 10x sustained capacity for 60 seconds |
+
+### Data Scale
+
+| Metric | Tested Scale |
+| --- | --- |
+| **Members per tenant** | 200 million\+ |
+| **Transactions per day** | 500 million\+ |
+| **Concurrent API requests** | 100,000\+ |
+| **Historical transaction depth** | 10 years\+ |
+
+## Scalability Architecture
+
+### Horizontal Scaling
+
+All Fidivio services scale horizontally via Kubernetes Horizontal Pod Autoscaler (HPA):
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: transaction-service-hpa
+spec:
+  scaleTargetRef:
+    name: transaction-service
+  minReplicas: 3
+  maxReplicas: 100
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: External
+    external:
+      metric:
+        name: kafka_consumer_lag
+      target:
+        type: AverageValue
+        averageValue: 1000
+```
+
+### Caching Strategy
+
+Fidivio uses a multi-layer caching strategy:
+
+**Layer 1: In-Memory (per-service)**
+
+- Active earning rules: 30-second TTL
+- Program configuration: 60-second TTL
+- Hot member data: 10-second TTL
+
+**Layer 2: Redis Cluster**
+
+- Member tier status: 5-minute TTL
+- Points balance: 30-second TTL, write-through on update
+- Rate limiting counters: Sliding window
+
+**Layer 3: Database Read Replicas**
+
+- Analytics queries routed to read replicas
+- Member search routed to Elasticsearch
+- Reporting queries use pre-aggregated tables
+
+### Database Optimization
+
+**Transaction Table Partitioning:**
+
+```sql
+-- Partitioned by month for query performance
+CREATE TABLE transactions (
+  id UUID NOT NULL,
+  organization_id UUID NOT NULL,
+  member_id UUID NOT NULL,
+  timestamp TIMESTAMPTZ NOT NULL,
+  ...
+) PARTITION BY RANGE (timestamp);
+
+-- Index strategy
+CREATE INDEX idx_transactions_member_time 
+  ON transactions (organization_id, member_id, timestamp DESC);
+```
+
+**Points Account Updates:** Using optimistic locking to safely update balances at high concurrency:
+
+```sql
+UPDATE points_accounts
+SET confirmed_balance = confirmed_balance + :points,
+    version = version + 1
+WHERE id = :account_id 
+  AND version = :expected_version;
+```
+
+## Rate Limits
+
+### Default Limits
+
+| Endpoint Category | Requests/Minute | Burst |
+| --- | --- | --- |
+| Transaction (earn/redeem) | 1,000 | 5,000 |
+| Member read | 5,000 | 20,000 |
+| Member write | 500 | 2,000 |
+| Analytics | 100 | 200 |
+| Bulk operations | 10 | 20 |
+
+### Rate Limit Headers
+
+All responses include rate limit information:
+
+```text
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 847
+X-RateLimit-Reset: 1716545460
+X-RateLimit-Retry-After: 0
+```
+
+### Handling Rate Limits
+
+```javascript
+async function callWithRetry(fn, maxRetries = 3) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status === 429) {
+        const retryAfter = error.headers['x-ratelimit-retry-after'];
+        await sleep(retryAfter * 1000);
+        continue;
+      }
+      throw error;
+    }
+  }
+}
+```
+
+## High-Volume Integration Patterns
+
+### Batch Transaction Processing
+
+For high-volume scenarios (e.g., end-of-day POS reconciliation), use the batch endpoint:
+
+```bash
+POST /v1/transactions/batch
+
+{
+  "transactions": [
+    { "external_reference": "ORD_001", ... },
+    { "external_reference": "ORD_002", ... },
+    // up to 1,000 transactions per batch
+  ],
+  "processing_mode": "async" // or "sync" for small batches
+}
+```
+
+Async batch results are delivered via webhook (`batch.completed`).
+
+### Connection Pooling
+
+For high-throughput integrations, use HTTP connection pooling:
+
+```javascript
+const https = require('https');
+const agent = new https.Agent({
+  keepAlive: true,
+  maxSockets: 50,
+  maxFreeSockets: 10
+});
+
+const fidivio = new FidivioClient({
+  apiKey: process.env.FIDIVIO_API_KEY,
+  httpAgent: agent
+});
+```
+
+<Tip>
+  For sustained loads over 500 req/sec, contact your Fidivio account manager to discuss dedicated infrastructure options and custom rate limits.
+</Tip>

@@ -1,0 +1,173 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "maple",
+  "name": "Fidivio",
+  "colors": {
+    "primary": "#7C3AED",
+    "light": "#A78BFA",
+    "dark": "#6D28D9"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "User Guide",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "index",
+              "user-guide/introduction",
+              "user-guide/getting-started"
+            ],
+            "icon": "rocket"
+          },
+          {
+            "group": "Dashboard & Navigation",
+            "icon": "gauge",
+            "pages": [
+              "user-guide/dashboard"
+            ]
+          },
+          {
+            "group": "Loyalty Programs",
+            "icon": "star",
+            "pages": [
+              "user-guide/program-configuration",
+              "user-guide/earning-redemption"
+            ]
+          },
+          {
+            "group": "Member Management",
+            "icon": "users",
+            "pages": [
+              "user-guide/member-management",
+              "user-guide/member-tiers"
+            ]
+          },
+          {
+            "group": "Campaigns & Promotions",
+            "icon": "megaphone",
+            "pages": [
+              "user-guide/campaigns"
+            ]
+          },
+          {
+            "group": "Transactions",
+            "icon": "receipt",
+            "pages": [
+              "user-guide/transactions"
+            ]
+          },
+          {
+            "group": "Analytics & Reports",
+            "icon": "chart-bar",
+            "pages": [
+              "user-guide/analytics"
+            ]
+          },
+          {
+            "group": "Integrations & Settings",
+            "icon": "plug",
+            "pages": [
+              "user-guide/integrations",
+              "user-guide/settings"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Technical Memorandum",
+        "groups": [
+          {
+            "group": "Overview",
+            "icon": "file-lines",
+            "pages": [
+              "technical/overview"
+            ]
+          },
+          {
+            "group": "Architecture",
+            "icon": "diagram-project",
+            "pages": [
+              "technical/system-architecture",
+              "technical/data-model"
+            ]
+          },
+          {
+            "group": "Security & Compliance",
+            "icon": "shield",
+            "pages": [
+              "technical/security",
+              "technical/data-privacy"
+            ]
+          },
+          {
+            "group": "Integration Guide",
+            "icon": "code",
+            "pages": [
+              "technical/api-guide",
+              "technical/webhooks-guide"
+            ]
+          },
+          {
+            "group": "Performance & Scalability",
+            "icon": "rocket",
+            "pages": [
+              "technical/performance"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "icon": "book",
+            "pages": [
+              "api-reference/overview"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@fidivio.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get Started",
+      "href": "https://fidivio.com"
+    }
+  },
+  "contextual": {
+    "options": [
+     "copy",
+     "view",
+     "chatgpt",
+     "claude",
+     "perplexity",
+     "mcp",
+     "cursor",
+     "vscode"
+   ]
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://linkedin.com/company/fidivio"
+    }
+  },
+  "appearance": {
+    "default": "dark"
+  }
+}

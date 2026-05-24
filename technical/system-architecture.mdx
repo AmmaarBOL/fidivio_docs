@@ -1,0 +1,207 @@
+---
+title: "System Architecture"
+description: "Detailed system architecture of the Fidivio platform"
+icon: "diagram-project"
+---
+
+# System Architecture
+
+Fidivio is built on a microservices architecture deployed on Kubernetes. This document describes the core services, their responsibilities, and how they interact.
+
+## Core Services
+
+### Member Service
+
+Responsible for all member lifecycle operations:
+
+- Member enrollment and profile management
+- Authentication and identity management
+- Tier status calculation and updates
+- Consent and preference management
+- Member segment evaluation
+
+**API Base Path**: `/v1/members`
+
+**Key Data Stores**:
+
+- PostgreSQL (primary member data)
+- Redis (session cache, tier cache)
+- Elasticsearch (member search)
+
+### Transaction Service
+
+The core processing engine for all points activity:
+
+- Earn transaction ingestion and processing
+- Redemption request handling
+- Manual adjustment processing
+- Transaction reversal
+- Idempotency enforcement
+
+**API Base Path**: `/v1/transactions`
+
+**Key Data Stores**:
+
+- PostgreSQL (transaction ledger)
+- Redis (idempotency keys, rate limiting)
+- Kafka (event streaming)
+
+### Rules Engine
+
+Evaluates business logic for transactions:
+
+- Earning rule evaluation (which rules apply to a transaction)
+- Points calculation
+- Redemption eligibility checking
+- Campaign condition evaluation
+- Tier qualification calculation
+
+The Rules Engine is **stateless** — it reads rule configuration from cache and evaluates rules in memory without database writes, enabling very high throughput.
+
+### Campaign Service
+
+Manages time-limited promotional programs:
+
+- Campaign configuration and lifecycle management
+- Campaign eligibility evaluation
+- Bonus points and reward issuance
+- Campaign analytics aggregation
+- Scheduling and automation
+
+**API Base Path**: `/v1/campaigns`
+
+### Notification Service
+
+Handles all outbound communications:
+
+- Email delivery (via SendGrid, SES, or SMTP)
+- SMS delivery (via Twilio, SNS)
+- Push notifications (via FCM, APNs)
+- In-app notifications
+- Template rendering and personalization
+
+Notifications are **asynchronous** — triggered by events on the Kafka stream and processed out-of-band from transaction processing.
+
+### Analytics Service
+
+Provides reporting and insights:
+
+- Pre-aggregated report generation
+- Real-time dashboard metrics
+- Custom report query execution
+- Data export generation
+- Scheduled report delivery
+
+## Service Communication
+
+### Synchronous (REST)
+
+Used for client-facing API calls and time-sensitive inter-service calls:
+
+- Client to API Gateway: HTTPS REST
+- API Gateway to Services: Internal HTTP via service mesh
+- Response time target: \< 100ms p95
+
+### Asynchronous (Kafka)
+
+Used for event-driven workflows:
+
+- Transaction processed → Notification Service (send confirmation)
+- Tier changed → Notification Service (send tier notification)
+- Campaign condition met → Campaign Service (issue reward)
+
+**Kafka Topics:**
+
+| Topic | Producers | Consumers |
+| --- | --- | --- |
+| `transactions.processed` | Transaction Service | Rules Engine, Analytics, Notifications |
+| `members.updated` | Member Service | Analytics, Notifications |
+| `campaigns.triggered` | Campaign Service | Transaction Service, Notifications |
+| `points.expiring` | Scheduler Service | Notifications |
+
+## Data Architecture
+
+### Primary Database (PostgreSQL)
+
+Core transactional data with full ACID compliance:
+
+- Member profiles and account data
+- Transaction ledger (immutable append-only)
+- Program configuration
+- Audit trail
+
+Sharding strategy: By `organization_id` for multi-tenant isolation.
+
+### Cache Layer (Redis)
+
+High-speed read caching for:
+
+- Member tier status (TTL: 5 minutes)
+- Active earning/redemption rules (TTL: 1 minute)
+- Member point balances (TTL: 30 seconds)
+- API rate limiting counters
+- Idempotency keys (TTL: 24 hours)
+
+### Search (Elasticsearch)
+
+Powers member search and analytics queries:
+
+- Full-text member search
+- Aggregation queries for dashboard KPIs
+- Segment membership evaluation
+
+### Object Storage (S3/Azure Blob)
+
+Used for:
+
+- Bulk import/export files
+- Report artifacts
+- Notification templates
+- Audit log archives
+
+## Deployment Architecture
+
+### Kubernetes Configuration
+
+```yaml
+# Example: Transaction Service deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fidivio-transaction-service
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    spec:
+      containers:
+      - name: transaction-service
+        image: fidivio/transaction-service:latest
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+```
+
+### Multi-Region Deployment
+
+For enterprise customers, Fidivio supports multi-region active-active deployment:
+
+| Region | Primary Use |
+| --- | --- |
+| **US East** | North America primary |
+| **EU West** | EMEA primary (GDPR compliant) |
+| **AP Southeast** | APAC primary |
+
+Cross-region data replication uses **asynchronous streaming** with \< 1 second replication lag.

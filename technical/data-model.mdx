@@ -1,0 +1,157 @@
+---
+title: "Data Model"
+description: "Core data entities and relationships in the Fidivio platform"
+icon: "database"
+---
+
+# Data Model
+
+This section describes the core data entities in Fidivio, their attributes, and how they relate to each other.
+
+## Entity Relationship Overview
+
+```text
+Organization
+  ├── Program (1..N)
+  │     ├── EarningRule (1..N)
+  │     ├── RedemptionRule (1..N)
+  │     └── Tier (0..N)
+  ├── Member (1..N)
+  │     ├── MemberProgram (membership in a program)
+  │     ├── PointsAccount (per program)
+  │     └── Transaction (1..N)
+  └── Campaign (1..N)
+```
+
+## Core Entities
+
+### Organization
+
+The top-level tenant entity.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `name` | String | Organization name |
+| `slug` | String | URL-safe identifier |
+| `base_currency` | String | ISO 4217 currency code |
+| `default_language` | String | BCP 47 language tag |
+| `timezone` | String | IANA timezone |
+| `created_at` | Timestamp | Creation timestamp |
+| `status` | Enum | ACTIVE, SUSPENDED, CANCELLED |
+
+### Member
+
+Represents a loyalty program member.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `organization_id` | UUID | Parent organization |
+| `external_id` | String | Your system’s member ID |
+| `email` | String | Email address (unique per org) |
+| `phone` | String | E.164 phone number |
+| `first_name` | String | First name |
+| `last_name` | String | Last name |
+| `date_of_birth` | Date | Date of birth |
+| `gender` | Enum | MALE, FEMALE, NON\_BINARY, NOT\_STATED |
+| `language` | String | Preferred language |
+| `status` | Enum | ACTIVE, SUSPENDED, INACTIVE |
+| `created_at` | Timestamp | Enrollment timestamp |
+| `last_activity_at` | Timestamp | Last transaction timestamp |
+| `custom_attributes` | JSONB | Flexible custom fields |
+
+### PointsAccount
+
+Tracks a member’s points balance within a program.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `member_id` | UUID | Member reference |
+| `program_id` | UUID | Program reference |
+| `confirmed_balance` | Integer | Redeemable points |
+| `pending_balance` | Integer | Not yet redeemable |
+| `lifetime_earned` | Integer | Total points ever earned |
+| `lifetime_redeemed` | Integer | Total points ever redeemed |
+| `updated_at` | Timestamp | Last balance update |
+
+<Note>
+  Point balances are always stored as integers (whole points). Fractional points are rounded according to the program’s rounding configuration.
+</Note>
+
+### Transaction
+
+Immutable record of every points movement.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `external_reference` | String | External order/receipt ID |
+| `organization_id` | UUID | Organization reference |
+| `member_id` | UUID | Member reference |
+| `program_id` | UUID | Program reference |
+| `type` | Enum | EARN, REDEEM, ADJUST\_CREDIT, ADJUST\_DEBIT, REVERSAL, EXPIRY, TRANSFER |
+| `points` | Integer | Points amount (positive = earned, negative = deducted) |
+| `transaction_value` | Decimal | Monetary transaction value |
+| `currency` | String | ISO 4217 currency |
+| `channel` | Enum | POS, WEB, APP, API, BACKOFFICE |
+| `location_code` | String | Store/location identifier |
+| `status` | Enum | PENDING, CONFIRMED, REVERSED |
+| `timestamp` | Timestamp | When the transaction occurred |
+| `processed_at` | Timestamp | When Fidivio processed it |
+| `metadata` | JSONB | Additional transaction data |
+| `applied_rules` | JSONB | List of rules that applied |
+
+### EarningRule
+
+Defines how points are earned.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `program_id` | UUID | Program reference |
+| `name` | String | Rule name |
+| `type` | Enum | TRANSACTION\_VALUE, FIXED, ITEM, CATEGORY, EVENT, REFERRAL |
+| `points_ratio` | Decimal | Points per qualifying unit |
+| `qualifying_value` | Decimal | Minimum transaction value |
+| `multiplier` | Decimal | Point multiplier (for bonus periods) |
+| `start_date` | Date | Rule activation date |
+| `end_date` | Date | Rule expiry date (null = ongoing) |
+| `tier_restriction` | UUID\[\] | Tiers this rule applies to (null = all) |
+| `conditions` | JSONB | Complex eligibility conditions |
+| `status` | Enum | ACTIVE, PAUSED, ARCHIVED |
+
+### Program
+
+Represents a loyalty program.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | UUID | Unique identifier |
+| `organization_id` | UUID | Parent organization |
+| `name` | String | Internal program name |
+| `display_name` | String | Member-facing name |
+| `type` | Enum | POINTS, TIER, HYBRID |
+| `currency_name` | String | e.g., "Points", "Miles" |
+| `currency_symbol` | String | e.g., "pts", "mi" |
+| `points_expiry_enabled` | Boolean | Whether points expire |
+| `points_expiry_days` | Integer | Days until expiry |
+| `expiry_type` | Enum | ROLLING, FIXED |
+| `confirmation_delay_days` | Integer | Days before pending → confirmed |
+| `status` | Enum | DRAFT, ACTIVE, PAUSED, ENDED |
+| `start_date` | Date | Program start |
+| `end_date` | Date | Program end (null = ongoing) |
+
+## Idempotency
+
+All transaction creation endpoints support idempotency via the `X-Idempotency-Key` header:
+
+```bash
+curl -X POST https://api.fidivio.com/v1/transactions/earn \
+  -H "X-Idempotency-Key: order_12345" \
+  -H "Authorization: Bearer YOUR_KEY" \
+  -d '{ ... }'
+```
+
+If the same idempotency key is submitted within 24 hours, the original response is returned without processing a duplicate transaction.

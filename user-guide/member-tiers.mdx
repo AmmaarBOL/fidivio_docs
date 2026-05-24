@@ -1,0 +1,114 @@
+---
+title: "Member Tiers"
+description: "Configure and manage membership tier programs in Fidivio"
+icon: "layer-group"
+---
+
+# Member Tiers
+
+Tier programs reward your most loyal members with escalating benefits, creating a powerful incentive for increased engagement and spend.
+
+## How Tiers Work
+
+Members qualify for tiers based on a **qualification metric** measured over a **qualification period**:
+
+```text
+Qualification Period (e.g., 12 months)
+├── Member accumulates qualifying activity (spend / transactions / points)
+├── System checks threshold at end of period
+├── Member is promoted, maintained, or demoted
+└── New tier applies for the next period
+```
+
+## Tier Qualification Metrics
+
+| Metric | Description |
+| --- | --- |
+| **Annual Spend** | Total purchase value in the qualification period |
+| **Transaction Count** | Number of qualifying transactions |
+| **Points Earned** | Total base points earned (excluding bonuses) |
+| **Custom Metric** | Any business-specific event tracked via API |
+
+## Tier Structure Example
+
+| Tier | Entry Threshold | Earning Multiplier | Benefits |
+| --- | --- | --- | --- |
+| **Standard** | Default (all members) | 1.0x | Base rewards catalog |
+| **Silver** | \$500 annual spend | 1.25x | Free shipping, early access |
+| **Gold** | \$1,500 annual spend | 1.5x | All Silver \+ dedicated support |
+| **Platinum** | \$5,000 annual spend | 2.0x | All Gold \+ personal concierge |
+
+## Configuring Tiers
+
+### Step 1: Enable Tiers on Your Program
+
+1. Go to **Loyalty \> Programs \> \[Program\] \> Settings**
+2. Toggle **Enable Tier Management** to On
+3. Select qualification metric and period
+4. Save
+
+### Step 2: Create Tier Levels
+
+1. Go to **Loyalty \> Tiers \> \+ Add Tier**
+2. For each tier, configure:
+
+<AccordionGroup>
+  <Accordion title="Basic Settings">
+    - Tier name and display name
+    - Tier icon/color for member-facing displays
+    - Entry threshold value
+    - Maintenance threshold (can differ from entry)
+  </Accordion>
+
+  <Accordion title="Earning Multiplier">
+    Set the points multiplier for members at this tier. For example:
+
+    - Silver: 1.25 (members earn 25% more points)
+    - Gold: 1.5 (members earn 50% more points)
+  </Accordion>
+
+  <Accordion title="Tier Benefits">
+    Add tangible benefits:
+
+    - Free shipping on orders
+    - Priority customer service queue
+    - Birthday bonus points
+    - Access to exclusive reward catalog items
+    - Partner benefits and discounts
+  </Accordion>
+
+  <Accordion title="Downgrade Rules">
+    Configure what happens when a member doesn't maintain their tier:
+
+    - **Grace Period**: Allow N months beyond qualification period
+    - **Downgrade Steps**: Drop one tier at a time vs. drop to bottom
+    - **Notifications**: Automatic alerts before downgrade
+  </Accordion>
+</AccordionGroup>
+
+## Tier Qualification Progress
+
+Members can view their tier qualification progress in real time via:
+
+- Member portal / mobile app progress bar
+- "X more to reach Gold" messaging
+- Email/SMS notifications at milestone thresholds (e.g., 50%, 75%, 90%)
+
+Configure milestone notifications under **Settings \> Notifications \> Tier Progress**.
+
+## Manual Tier Override
+
+Administrators can manually assign a tier regardless of qualification:
+
+1. Open the member’s profile
+2. Click **Edit Tier** next to the current tier
+3. Select the new tier
+4. Choose override type:
+   - **Temporary**: Expires after N days, then reverts to system-calculated tier
+   - **Permanent**: Applies until manually changed
+5. Add a note (required)
+6. Save
+
+<Warning>
+  Manual tier overrides bypass normal qualification rules. Use with caution and document your reason in the notes field.
+</Warning>

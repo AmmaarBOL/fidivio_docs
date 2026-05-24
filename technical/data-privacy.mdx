@@ -1,0 +1,134 @@
+---
+title: "Data Privacy"
+description: "Data privacy, GDPR compliance, and member data handling in Fidivio"
+icon: "lock"
+---
+
+# Data Privacy
+
+Fidivio is designed to help you comply with global data privacy regulations while running effective loyalty programs.
+
+## Privacy by Design
+
+Fidivio implements privacy by design principles:
+
+- **Data Minimization**: Only collect data necessary for program operation
+- **Purpose Limitation**: Data is used only for stated loyalty program purposes
+- **Storage Limitation**: Configurable data retention periods
+- **Integrity & Confidentiality**: Encryption at rest and in transit
+- **Accountability**: Full audit trail of all data access and modifications
+
+## Data Classification
+
+| Classification | Examples | Handling |
+| --- | --- | --- |
+| **PII** | Email, phone, name, DOB | Field-level encrypted, excluded from logs |
+| **Sensitive PII** | Government ID, payment data | Not stored (tokenized externally) |
+| **Behavioral** | Transaction history, preferences | Pseudonymized in analytics |
+| **Operational** | System logs, performance metrics | No PII, retained for 90 days |
+
+## Member Consent
+
+### Recording Consent
+
+Record and manage member consent via API:
+
+```json
+POST /v1/members/{id}/consent
+{
+  "consent_type": "marketing_email",
+  "granted": true,
+  "granted_at": "2026-05-24T10:00:00Z",
+  "source": "web_signup",
+  "ip_address": "203.0.113.1"
+}
+```
+
+### Consent Types
+
+| Type | Description |
+| --- | --- |
+| `program_terms` | Acceptance of loyalty program terms |
+| `marketing_email` | Consent to receive marketing emails |
+| `marketing_sms` | Consent to receive marketing SMS |
+| `data_processing` | Consent to process personal data |
+| `third_party_sharing` | Consent to share data with partners |
+
+### Consent Audit Trail
+
+Every consent event (grant or withdrawal) is recorded with:
+
+- Timestamp
+- Source (how consent was captured)
+- IP address
+- Version of terms accepted
+
+## GDPR Compliance Tools
+
+### Data Subject Access Request (DSAR)
+
+Export all data held about a member:
+
+```bash
+GET /v1/members/{id}/data-export
+```
+
+Returns a JSON file containing:
+
+- Profile data
+- Program memberships
+- Full transaction history
+- Communication history
+- Consent records
+
+### Right to Erasure
+
+Erase a member’s personal data:
+
+```bash
+DELETE /v1/members/{id}
+```
+
+Erasure process:
+
+1. PII fields are overwritten with anonymized values
+2. Email replaced with `deleted_{hash}@fidivio-deleted.com`
+3. Phone number replaced with `+00000000000`
+4. Name fields set to `[Deleted]`
+5. Transaction records are retained but de-linked from the member (required for financial compliance)
+6. Erasure event recorded in audit log
+
+<Warning>
+  Erasure is irreversible. The member’s personal data cannot be recovered after this operation. Transaction records are retained for financial/tax compliance purposes.
+</Warning>
+
+### Data Portability
+
+Members can request a copy of their data through:
+
+- Your member portal (if configured)
+- Customer service backoffice
+- API endpoint (for automated handling)
+
+## Data Retention
+
+Configure retention policies in **Settings \> Privacy \> Data Retention**:
+
+| Data Type | Default Retention | Configurable Range |
+| --- | --- | --- |
+| Member Profiles | Until erasure request | 1–forever |
+| Transaction Records | 7 years | 5–10 years |
+| Audit Logs | 3 years | 1–5 years |
+| Communication History | 2 years | 1–3 years |
+| Session Logs | 90 days | 30–180 days |
+
+## Cross-Border Data Transfers
+
+For international data transfers, Fidivio provides:
+
+- **Standard Contractual Clauses (SCCs)** for EU data transfers
+- **Data Processing Agreement (DPA)** for all customers
+- **EU Data Residency** option (data stored exclusively in EU regions)
+- **APAC Data Residency** option for Australian/APAC customers
+
+Contact [privacy@fidivio.com](mailto:privacy@fidivio.com) to request a DPA or discuss data residency requirements.

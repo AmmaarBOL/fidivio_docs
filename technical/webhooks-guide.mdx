@@ -1,0 +1,236 @@
+---
+title: "Webhooks Guide"
+description: "Real-time event notifications via webhooks in Fidivio"
+icon: "bolt"
+---
+
+# Webhooks Guide
+
+Webhooks allow Fidivio to push real-time notifications to your systems when important events occur, enabling you to build reactive integrations without polling.
+
+## How Webhooks Work
+
+```text
+Fidivio Event Occurs
+       ↓
+Event Added to Kafka Stream
+       ↓
+Webhook Service Processes Event
+       ↓
+HTTP POST Sent to Your Endpoint
+       ↓
+Your System Responds with 2xx
+       ↓
+Delivery Confirmed
+```
+
+If your endpoint returns a non-2xx response or times out, Fidivio retries with exponential backoff:
+
+- Retry 1: 1 minute
+- Retry 2: 5 minutes
+- Retry 3: 30 minutes
+- Retry 4: 2 hours
+- Retry 5: 12 hours
+
+After 5 failed attempts, the delivery is marked as failed and no more retries are attempted.
+
+## Webhook Events
+
+### Member Events
+
+| Event | Trigger |
+| --- | --- |
+| `member.created` | New member enrolled |
+| `member.updated` | Member profile updated |
+| `member.tier_upgraded` | Member promoted to higher tier |
+| `member.tier_downgraded` | Member demoted to lower tier |
+| `member.deactivated` | Member account deactivated |
+
+### Transaction Events
+
+| Event | Trigger |
+| --- | --- |
+| `transaction.earn.completed` | Points successfully earned |
+| `transaction.redeem.completed` | Redemption successfully processed |
+| `transaction.reversed` | Transaction reversed |
+| `transaction.adjusted` | Manual adjustment applied |
+
+### Points Events
+
+| Event | Trigger |
+| --- | --- |
+| `points.expiring_soon` | Points expiring within configured threshold |
+| `points.expired` | Points have expired |
+| `points.balance_updated` | Any change to member’s balance |
+
+### Campaign Events
+
+| Event | Trigger |
+| --- | --- |
+| `campaign.reward_issued` | Campaign reward awarded |
+| `campaign.started` | Campaign becomes active |
+| `campaign.ended` | Campaign ends |
+
+## Webhook Payload Structure
+
+All webhook payloads follow this structure:
+
+```json
+{
+  "id": "evt_abc123",
+  "event": "transaction.earn.completed",
+  "api_version": "2026-01",
+  "timestamp": "2026-05-24T10:30:00Z",
+  "organization_id": "org_xyz",
+  "data": {
+    // Event-specific payload
+  }
+}
+```
+
+### Example: transaction.earn.completed
+
+```json
+{
+  "id": "evt_abc123",
+  "event": "transaction.earn.completed",
+  "api_version": "2026-01",
+  "timestamp": "2026-05-24T10:30:00Z",
+  "organization_id": "org_xyz",
+  "data": {
+    "transaction_id": "txn_abc123",
+    "member_id": "mem_xyz789",
+    "program_code": "LOYALTY_MAIN",
+    "points_earned": 150,
+    "new_balance": 650,
+    "transaction_value": "125.00",
+    "currency": "USD",
+    "channel": "pos",
+    "external_reference": "ORDER_98765"
+  }
+}
+```
+
+## Verifying Webhook Signatures
+
+Every webhook includes an `X-Fidivio-Signature` header for verification:
+
+```text
+X-Fidivio-Signature: sha256=a4b2c8d...
+X-Fidivio-Timestamp: 1716545400
+```
+
+### Verification Code Examples
+
+<Tabs>
+  <Tab title="Node.js">
+    ```javascript
+    const crypto = require('crypto');
+    
+    function verifyWebhook(payload, signature, timestamp, secret) {
+      const signedPayload = `${timestamp}.${payload}`;
+      const expectedSig = crypto
+        .createHmac('sha256', secret)
+        .update(signedPayload)
+        .digest('hex');
+      
+      return crypto.timingSafeEqual(
+        Buffer.from(`sha256=${expectedSig}`),
+        Buffer.from(signature)
+      );
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import hmac
+    import hashlib
+    
+    def verify_webhook(payload: bytes, signature: str, 
+                       timestamp: str, secret: str) -> bool:
+        signed_payload = f"{timestamp}.{payload.decode()}"
+        expected = hmac.new(
+            secret.encode(),
+            signed_payload.encode(),
+            hashlib.sha256
+        ).hexdigest()
+        return hmac.compare_digest(f"sha256={expected}", signature)
+    ```
+  </Tab>
+  <Tab title="PHP">
+    ```php
+    function verifyWebhook(
+      string $payload, 
+      string $signature, 
+      string $timestamp, 
+      string $secret
+    ): bool {
+      $signedPayload = "$timestamp.$payload";
+      $expected = 'sha256=' . hash_hmac('sha256', $signedPayload, $secret);
+      return hash_equals($expected, $signature);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Replay Attack Prevention
+
+Always validate the timestamp to prevent replay attacks:
+
+```javascript
+const MAX_AGE_SECONDS = 300; // 5 minutes
+
+function isTimestampValid(timestamp) {
+  const age = Math.floor(Date.now() / 1000) - parseInt(timestamp);
+  return age <= MAX_AGE_SECONDS;
+}
+```
+
+## Setting Up Webhooks
+
+### Via API
+
+```bash
+POST /v1/webhooks
+{
+  "url": "https://your-server.com/fidivio-webhooks",
+  "events": [
+    "transaction.earn.completed",
+    "transaction.redeem.completed",
+    "member.tier_upgraded",
+    "points.expiring_soon"
+  ],
+  "secret": "your_webhook_secret",
+  "active": true
+}
+```
+
+### Via Dashboard
+
+1. Go to **Settings \> Integrations \> Webhooks**
+2. Click **\+ Add Webhook**
+3. Enter your HTTPS endpoint URL
+4. Select events to subscribe to
+5. Copy the generated secret for signature verification
+6. Click **Save**
+7. Use **Send Test Event** to verify your endpoint
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Respond Quickly" icon="bolt">
+    Return a 2xx response immediately, then process asynchronously. Fidivio times out after 30 seconds.
+  </Card>
+
+  <Card title="Idempotent Processing" icon="rotate">
+    Use the event `id` to deduplicate. Your endpoint may receive the same event multiple times.
+  </Card>
+
+  <Card title="Always Verify" icon="shield">
+    Always verify the webhook signature before processing. Never trust unverified payloads.
+  </Card>
+
+  <Card title="Monitor Delivery" icon="chart-bar">
+    Monitor webhook delivery status in **Settings \> Webhooks \> Delivery Log**.
+  </Card>
+</CardGroup>

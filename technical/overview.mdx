@@ -1,0 +1,97 @@
+---
+title: "Technical Overview"
+description: "Fidivio platform architecture, system design, and technical specifications"
+icon: "file-lines"
+---
+
+# Fidivio Technical Overview
+
+This technical memorandum describes the architecture, design principles, and technical specifications of the Fidivio loyalty and rewards management platform.
+
+## Executive Summary
+
+Fidivio is a **cloud-native, API-first loyalty management platform** built on a microservices architecture. It is designed to process high-volume transaction streams in real time while providing flexible program configuration, robust analytics, and enterprise-grade security.
+
+## Platform Design Principles
+
+<CardGroup cols={2}>
+  <Card title="API-First" icon="code">
+    Every platform capability is accessible via REST API. The UI is built entirely on top of the same APIs available to clients.
+  </Card>
+
+  <Card title="Event-Driven" icon="bolt">
+    All system state changes emit events. This enables real-time integrations, audit trails, and extensibility.
+  </Card>
+
+  <Card title="Multi-Tenant" icon="building">
+    Full tenant isolation with dedicated data partitioning. Each organization’s data is logically and cryptographically separated.
+  </Card>
+
+  <Card title="Horizontally Scalable" icon="server">
+    All services scale horizontally. The platform is tested to 50,000\+ transactions per second.
+  </Card>
+
+  <Card title="Cloud-Native" icon="cloud">
+    Deployed on Kubernetes with auto-scaling, zero-downtime deployments, and multi-region availability.
+  </Card>
+
+  <Card title="Configurable" icon="sliders">
+    Business logic is data-driven, not code-driven. Program rules, tiers, and campaigns are configurable without code changes.
+  </Card>
+</CardGroup>
+
+## High-Level Architecture
+
+```text
+┌─────────────────────────────────────────────────────┐
+│                    Client Layer                         │
+│   Web App   │  Mobile App  │  POS/Kiosk  │   Partner   │
+└─────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────┐
+│              API Gateway / Load Balancer                │
+│         Auth  │  Rate Limiting  │  Routing             │
+└─────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────┐
+│                    Microservices                        │
+│  Member   │ Transaction │  Rules   │ Campaign │ Notify  │
+│  Service  │  Service    │  Engine  │ Service  │ Service │
+└─────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────┐
+│                  Data & Messaging Layer                 │
+│  PostgreSQL  │  Redis Cache  │  Kafka  │  Elasticsearch  │
+└─────────────────────────────────────────────────────┘
+```
+
+## Technology Stack
+
+| Layer | Technology |
+| --- | --- |
+| **Backend Services** | Node.js, Python, Go |
+| **API Gateway** | Kong / AWS API Gateway |
+| **Message Broker** | Apache Kafka |
+| **Primary Database** | PostgreSQL 15\+ |
+| **Cache** | Redis 7\+ |
+| **Search** | Elasticsearch 8\+ |
+| **Object Storage** | AWS S3 / Azure Blob |
+| **Container Orchestration** | Kubernetes (EKS/AKS/GKE) |
+| **Service Mesh** | Istio |
+| **Observability** | Prometheus, Grafana, OpenTelemetry |
+| **CDN** | CloudFront / Azure CDN |
+
+## Availability & SLAs
+
+| Metric | Target |
+| --- | --- |
+| **Platform Availability** | 99.95% uptime |
+| **Transaction Processing Latency** | \< 200ms p99 |
+| **API Response Time** | \< 100ms p95 |
+| **RTO (Recovery Time Objective)** | \< 1 hour |
+| **RPO (Recovery Point Objective)** | \< 5 minutes |
+| **Data Backup Frequency** | Every 15 minutes |
+
+<Note>
+  SLAs are defined per customer contract. Enterprise customers may negotiate enhanced SLAs with dedicated infrastructure.
+</Note>
