@@ -52,12 +52,12 @@ Under this option, any changes to the liability are entered as a direct input (i
 
 ### Option 2: True-up for Breakage Rate Change
 
-Under this option, only when the SSP is adjusted for breakage (Parameter 4 is set to Option 1), a true up results from a reclassification of points from the 'expected to redeemed pool' to the 'expected not be redeemed pool' or vice versa.
+Under this option, only when the SSP is adjusted for breakage (Parameter 4 is set to Option 1), a true-up results from a reclassification of points from the 'expected to be redeemed pool' to the 'expected not to be redeemed pool' or vice versa.
 
 **Calculation: True-up for breakage rate change**
 
 ```
-IF(Parameter 4 = 1), Breakage_adjustment_pts × SSP_before_breakage, 0)
+IF(Parameter 4 = 1, Breakage_adjustment_pts × SSP_before_breakage, 0)
 ```
 
 *When Parameter 4 is 2 (SSP is not adjusted for breakage), the model provisions at full face-value SSP regardless of breakage rate, so a change in breakage rate does not alter the liability.*
