@@ -1,0 +1,35 @@
+---
+title: "Roles & permissions"
+description: "How roles and permissions work in Fidivio."
+---
+
+Roles define what actions a user can perform within Fidivio. Each role is a named collection of access permissions assignable to one or more users.
+
+**Location:** Setup & Support → Configuration → Role Management
+
+## How permissions work
+
+- Each role maps to a set of permitted activities grouped by module (Data Input, Configuration, Reports, etc.)
+- Users inherit permissions from their assigned role
+- Permission changes apply immediately to all users on that role
+
+<Frame caption="Role Management screen">
+  ![Role management](/images/user-guide/user-role-management/roles-permissions.png)
+</Frame>
+
+## View permissions
+
+Click the **eye icon** on any role row to open a panel showing the full list of permitted activities.
+
+<Warning>
+Changes to a role's permissions apply retroactively to all users assigned that role. Review impact carefully before removing permissions.
+</Warning>
+
+<Tip>
+Design roles around job functions, not individuals. A role like "Finance Analyst" is easier to maintain than one named after a specific person.
+</Tip>
+
+## Next steps
+
+- [Creating roles](/user-guide/user-role-management/creating-roles)
+- [Managing users](/user-guide/user-role-management/managing-users)

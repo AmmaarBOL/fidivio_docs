@@ -1,0 +1,101 @@
+---
+title: "IFRS / GAAP P&L"
+description: "IFRS 15 revenue recognition structure, marketing income, costs, and profit calculation."
+---
+
+The IFRS P&L applies IFRS 15 revenue recognition. Consideration received for points is deferred at issuance and recognised progressively as performance obligations are satisfied.
+
+## Structure of the IFRS P&L
+
+```
+  Revenue Recognised (Driven by Redemptions)
++ Marketing Income
++ Breakage Income
++ Non-Point Revenue
+± Adjustment for Liability True-up (If Any)
+− Total Cost of Redemptions
+− Program Running Cost
+  ─────────────────────────────────────────────────
+= IFRS Profit
+= Profit Margin %
+```
+
+<Info>
+**Basis:** Revenue is recognised when — and in proportion to — performance obligations being discharged, not when cash is received. Points issued create a deferred liability (contract liability) that is released as points are redeemed or broken.
+</Info>
+
+### Foundation: The Contract Liability
+
+All IFRS revenue lines flow from a single ledger: the contract liability (also called deferred revenue). See [Deferred Revenue Dashboard](/technical-memo/calculations/deferred-revenue-dashboard) for detailed calculations on revenue recognized from redemptions, revenue recognized from breakage, and adjustment to deferred revenue.
+
+### Marketing income
+
+Marketing income represents the portion of consideration received for points that can be recognised **immediately at issuance**, because it is not subject to any future performance obligation. It arises when the price charged per point (yield) exceeds the Applied SSP.
+
+### Calculating marketing income
+
+```
+= (yield_per_point − Applied_SSP) × points_issued
+```
+
+Where Applied_SSP depends on P4 setting:
+- P4 = 1: `Applied_SSP = SSP_input × (1 − breakage_rate)`
+- P4 = 2: `Applied_SSP = SSP_input`
+
+*Only the excess of yield over SSP is recognised immediately. The SSP portion is always deferred as a contract liability. Marketing income is zero when yield = SSP, which is common in self-funded programmes.*
+
+<Info>
+**Typical outcome:** In many programme structures, yield is set equal to or close to the Applied SSP, resulting in zero or minimal marketing income. Marketing income is most significant in third-party profit-centre programmes where the loyalty operator charges a premium above the redemption value.
+</Info>
+
+### Line Item: Non-Points Revenues
+
+Non-points revenues are all income earned by the loyalty programme that does not arise from the sale of points. Examples include brand licensing fees, access to member data, technology services provided to partners, and co-marketing arrangements.
+
+### Calculating Non-Points Revenues
+
+```
+= sum of the non_points_revenue (direct input per period)
+```
+
+*No deferral. Revenue is recognised in full in the period it is received. This reflects that the associated performance obligations (e.g. provision of data access) are fully satisfied at the point of sale.*
+
+<Note>
+This line is identical in both the IFRS P&L and the Adjusted EBITDA P&L. It is unaffected by any of the three accountancy configuration settings.
+</Note>
+
+### Total Cost of Redemptions
+
+The actual cost incurred by the programme to fulfil points redeemed in the period. This is a cash cost, not deferred.
+
+```
+= points_redeemed × cost_per_point_redeemed
+```
+
+*Both inputs are per-period values direct inputs from the user. `Cost_per_point_redeemed` is the average blended cost across all redemption types in that period.*
+
+### Program Running Costs
+
+All operational overhead of running the loyalty programme, excluding the direct cost of fulfilling redemptions. Examples include staffing, technology platforms, office costs, and management fees.
+
+```
+= program running costs
+```
+
+*Direct input from the user. This line is identical in both the IFRS P&L and the Adjusted EBITDA P&L. It is unaffected by any of the three accountancy configuration settings.*
+
+### Calculating the IFRS Profit
+
+```
+= Total_Revenues − Total_Costs
+
+= (Revenue_redemptions + Breakage_income + Marketing_income
+ + Non-points_revenues + True-up_adjustment)
+− (Cost_of_redemptions + Program_running_costs)
+```
+
+## Next steps
+
+- [Adjusted EBITDA P&L](/technical-memo/calculations/adjusted-ebitda-pl)
+- [Components reference](/technical-memo/components)
+

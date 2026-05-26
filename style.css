@@ -1,0 +1,90 @@
+/* ── Branding ─────────────────────────────────────────────── */
+nav-logo img {
+  max-height: 1.625rem;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ── Navbar Website button ────────────────────────────────── */
+.navbar-link a {
+  background-color: #f37d28 !important;
+  color: #ffffff !important;
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.8rem;
+  height: auto !important;
+  padding: 0.375rem 1rem !important;
+  transition: background-color 0.15s ease;
+}
+
+.navbar-link a:hover {
+  background-color: #d96410 !important;
+  color: #ffffff;
+}
+
+.navbar-link a svg {
+  background-color: #ffffff !important;
+}
+
+/* ── Sidebar hierarchy (native Mintlify shell — no navbar overrides) ── */
+sidebar-group-header {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding-top: 1rem;
+  padding-bottom: 0.125rem;
+}
+
+sidebar-group:first-of-type sidebar-group-header {
+  padding-top: 0.125rem;
+}
+
+sidebar-group-icon {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  opacity: 0.9;
+}
+
+sidebar-nav-group-divider {
+  margin-top: 0.5rem;
+  opacity: 0.25;
+}
+
+#sidebar-content li a {
+  font-size: 0.875rem;
+  font-weight: 450;
+}
+
+#sidebar-content li[data-active] a {
+  font-weight: 500;
+}
+
+/* ── Content typography & spacing ───────────────────────── */
+#page-title {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.5rem;
+}
+
+mdx-content {
+  line-height: 1.7;
+}
+
+mdx-content h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+mdx-content h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+mdx-content p {
+  margin-bottom: 1rem;
+}
+
+#content-area {
+  padding-top: 0.5rem;
+}

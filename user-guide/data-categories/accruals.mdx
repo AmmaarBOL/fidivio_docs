@@ -1,0 +1,34 @@
+---
+title: "Accruals"
+description: "Upload points issued and yield per point for each partner and period."
+---
+
+Accruals record loyalty points issued to members and the yield (revenue) earned by the program for issuing those points. Each row represents a single transaction date and partner combination.
+
+**Location:** Setup & Support → Data Input → Accruals
+
+## When to use
+
+Enter an accrual record for every period in which points are awarded. Where multiple partners issue points on the same date, enter a separate row for each partner.
+
+Yield is required for profit-centre programs; enter `0` for self-funded programs.
+
+<Note>
+Partner codes must be set up under **Setup & Support → Partners** before accrual data can be uploaded.
+</Note>
+
+## Fields
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `partner_code` | Partner responsible for this accrual. Must match configured code exactly | Text | Yes |
+| `currency` | Currency of the yield. Should match Program Setup currency | ISO 4217 | Yes |
+| `points_issued` | Total points issued on this date for this partner | Integer | Yes |
+| `yield` | Revenue earned per point issued. Set to `0` for self-funded programs | Numeric | Yes |
+
+See [Field definitions](/user-guide/reference/field-definitions) for common CSV fields.
+
+## Next steps
+
+- [Breakage levels](/user-guide/data-categories/breakage-levels)
+- [CSV upload workflow](/user-guide/data-input/csv-upload-workflow)

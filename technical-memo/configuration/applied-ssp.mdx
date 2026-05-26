@@ -1,0 +1,25 @@
+---
+title: "Applied SSP"
+description: "Parameter 4 — select whether applied SSP is adjusted for expected breakage."
+---
+
+Fidivio requires the standalone selling price per point to perform its calculations. Under Parameter 4, set whether the applied SSP is adjusted for breakage or not.
+
+**Regardless of the option chosen, the SSP data input should be at face value.**
+
+## Option 1: The Applied SSP is Adjusted for Breakage
+
+Under this option, the Deferred revenue for issued points is calculated based on the standalone selling price of a point, adjusted for the estimated likelihood of redemption.
+
+## Option 2: The Applied SSP is Not Adjusted for Breakage
+
+Under this option, the Deferred revenue for issued points is calculated based on the standalone selling price of a point, without making any adjustment for the estimated likelihood of redemption.
+
+<Tip>
+Parameter 4 interacts with Parameter 2: true-up for breakage rate changes (P2=2) is only applicable when P4=1.
+</Tip>
+
+## Next steps
+
+- [Configuration effects summary](/technical-memo/configuration-effects-summary)
+- [Background: Standalone Selling Price](/technical-memo/background-ssp)

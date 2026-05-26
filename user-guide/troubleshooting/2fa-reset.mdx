@@ -1,0 +1,38 @@
+---
+title: "2FA reset"
+description: "Reset two-factor authentication for a Fidivio user."
+---
+
+When a user loses access to their authenticator device, an administrator must reset their 2FA.
+
+## Admin steps
+
+<Steps>
+  <Step title="Open User Management">
+    Go to **Setup & Support → Configuration → User Management**.
+  </Step>
+  <Step title="Select the user">
+    Click the **three-dots icon** on the user's row.
+  </Step>
+  <Step title="Reset 2FA">
+    Select **Reset 2FA**.
+  </Step>
+  <Step title="User re-registers">
+    The user receives an email and must scan a new QR code on next login.
+  </Step>
+</Steps>
+
+<Warning>
+Users cannot self-service 2FA reset. Admin action is required.
+</Warning>
+
+## User steps after reset
+
+1. Log in with email and password.
+2. Scan the new QR code with an authenticator app.
+3. Enter the 6-digit verification code to complete setup.
+
+## Next steps
+
+- [Security & 2FA](/user-guide/user-role-management/security-2fa)
+- [Login issues](/user-guide/troubleshooting/login-issues)

@@ -1,0 +1,47 @@
+---
+title: "Breakage protocol"
+description: "Parameter 3 — select how breakage income is recognized each period."
+---
+
+The volume of breakage points recognized per period is determined by Parameter 3 (protocol for Breakage Recognition). Select from one of three options.
+
+## Option 1: Proportional to Redemptions (Default)
+
+Under the first option, points that are expected to be broken are recognized as revenue in proportion to the redemptions materializing.
+
+**Calculation:**
+
+```
+Breakage_pts = Points_redeemed × (Total_pts_balance − Expected_to_redeem) ÷ Expected_to_redeem
+```
+
+## Option 2: Proportional to Points Validity
+
+Under the second option, points expected to be broken are recognized as revenue in proportion to the life expectancy. Users must input the validity of points, and the model proportionally recognizes them as time passes.
+
+**Calculation:**
+
+```
+Breakage_pts = (Points_issued_per_cohort × Breakage_rate) ÷ Validity_months
+```
+
+*(summed across all active cohorts in the period)*
+
+*Spreads each cohort's expected breakage evenly over its validity window. Requires a validity period input from the user.*
+
+## Option 3: Actual Expiry
+
+Under option 3 (the most conservative option), only when the points actually expire, the corresponding breakage income is recognized. This model is mostly applicable to programs with a fixed validity period.
+
+**Calculation:**
+
+```
+Breakage_pts = Points_expired
+```
+
+*No forward estimate. Breakage income only arises when points are formally removed from member accounts.*
+
+## Next steps
+
+- [Applied SSP](/technical-memo/configuration/applied-ssp)
+- [Background: Breakage income](/technical-memo/background-breakage-income)

@@ -1,0 +1,31 @@
+---
+title: "Breakage levels"
+description: "Configure breakage rate assumptions, SSP, and validity period inputs."
+---
+
+Breakage Levels hold the actuarial and accounting assumptions used to estimate points that will not be redeemed. These inputs drive applied SSP, contract liability, and breakage income each period.
+
+**Location:** Setup & Support → Data Input → Breakage Levels
+
+## When to use
+
+Enter one row per transaction date to set breakage assumptions for that period's point issuances. Leave `breakage_adjustment` and `breakage_reconciliation` as `0` if not applicable.
+
+## Fields
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `breakage_level` | Expected % of points not redeemed (e.g. `20` = 20%) | Number 0–100 | Yes |
+| `breakage_adjustment` | Manual adjustment to breakage for all outstanding points. Positive = more expected to break | Numeric, +/− | Optional |
+| `breakage_reconciliation` | Difference between estimate and actual expiry. Used with validity-period breakage recognition | Numeric, +/− | Optional |
+| `points_validity` | Months points remain valid. Required when Breakage Recognition = Setting 2 | Integer | Conditional |
+| `stand_alone_selling_price` | SSP of one point (pre-breakage face value) | Numeric | Yes |
+
+<Tip>
+The applied SSP used in calculations depends on your [Applied SSP configuration](/user-guide/program-setup/applied-ssp).
+</Tip>
+
+## Next steps
+
+- [Breakage recognition setting](/user-guide/program-setup/breakage-recognition)
+- [Expiry data](/user-guide/data-categories/expiry)

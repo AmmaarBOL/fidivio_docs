@@ -1,0 +1,81 @@
+---
+title: "Field definitions"
+description: "Complete field reference for all Fidivio data categories."
+---
+
+This page consolidates field definitions for all data categories. Common fields appear in every template.
+
+## Common fields (all categories)
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `action` | Operation: insert, update, or delete | `insert` \| `update` \| `delete` | Yes |
+| `id` | Unique record identifier. Required for update/delete | Integer | Conditional |
+| `transaction_date` | Date associated with the record | `yyyy-mm-dd` | Yes |
+| `external_unique_identifier` | Optional cross-system reference ID | Integer | Optional |
+
+## Category-specific fields
+
+<AccordionGroup>
+  <Accordion title="Accruals">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `partner_code` | Text | Yes |
+    | `currency` | ISO 4217 | Yes |
+    | `points_issued` | Integer | Yes |
+    | `yield` | Numeric | Yes |
+  </Accordion>
+  <Accordion title="Breakage Levels">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `breakage_level` | Number 0–100 | Yes |
+    | `breakage_adjustment` | Numeric, +/− | Optional |
+    | `breakage_reconciliation` | Numeric, +/− | Optional |
+    | `points_validity` | Integer (months) | Conditional |
+    | `stand_alone_selling_price` | Numeric | Yes |
+  </Accordion>
+  <Accordion title="Expiry">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `points_expired` | Numeric ≥ 0 | Yes |
+  </Accordion>
+  <Accordion title="Other Revenue Sources">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `non_currency_revenue` | Numeric ≥ 0 | Optional |
+    | `revenue_category` | Text | Optional |
+    | `revenue_item` | Text | Optional |
+    | `currency` | ISO 4217 | Optional |
+  </Accordion>
+  <Accordion title="Program Costs">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `cost_category` | Text | Optional |
+    | `cost_item` | Text | Optional |
+    | `currency` | ISO 4217 | Optional |
+    | `total_running_costs` | Numeric ≥ 0 | Optional |
+  </Accordion>
+  <Accordion title="Redemptions">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `redemption_type` | Text | Yes |
+    | `redemption_partner_code` | Text | Yes |
+    | `currency` | ISO 4217 | Yes |
+    | `cost_per_point` | Numeric ≥ 0 | Yes |
+    | `points_redeemed` | Integer ≥ 0 | Yes |
+  </Accordion>
+  <Accordion title="Sales Information">
+    | Field | Format | Required |
+    | --- | --- | --- |
+    | `partner_code` | Text | Conditional |
+    | `contract_liability_associated_goods` | Numeric ≥ 0 | Conditional |
+    | `total_consideration_goods_and_points` | Numeric ≥ 0 | Conditional |
+  </Accordion>
+</AccordionGroup>
+
+For category guidance, see the [Data Categories](/user-guide/data-categories/accruals) section.
+
+## Next steps
+
+- [CSV specifications](/user-guide/reference/csv-specifications)
+- [Glossary](/user-guide/reference/glossary)

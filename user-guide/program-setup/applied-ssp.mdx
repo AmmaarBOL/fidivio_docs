@@ -1,0 +1,35 @@
+---
+title: "Applied SSP"
+description: "Configure whether the applied standalone selling price is adjusted for expected breakage."
+---
+
+The Standalone Selling Price (SSP) of a loyalty point represents what the program operator would charge if selling that point separately. In Fidivio, the SSP data input is defined as the gross face value of one point, before any adjustment for expected breakage.
+
+This setting determines whether the applied SSP used in the model remains at this gross figure or is reduced to reflect points not expected to be redeemed.
+
+## Options
+
+| Option | Description | Example |
+| --- | --- | --- |
+| **Yes (Default)** | Applied SSP is the SSP input after breakage has been deducted. The model uses this reduced figure to value performance obligations. In most programs the SSP is estimated with breakage embedded. | SSP: $0.01; Breakage: 20% → Applied SSP = $0.01 × 80% = **$0.008** |
+| **No** | Applied SSP is taken directly from the SSP input without adjustment for breakage. The full face value of every point is held as a liability regardless of expected breakage. | SSP: $0.01; Breakage: 20% → Applied SSP = **$0.01** |
+
+## When to choose each option
+
+<AccordionGroup>
+  <Accordion title="Yes — breakage embedded in SSP (recommended)">
+    Use when your SSP estimate already reflects expected redemption rates. This is the most common approach and aligns with how many programs estimate point value.
+  </Accordion>
+  <Accordion title="No — gross SSP without breakage adjustment">
+    Use for a more conservative liability approach. The full face value of every point is provisioned regardless of expected breakage.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+This choice directly affects how much revenue is deferred as contract liability versus recognised immediately on the income statement. It also affects marketing income for profit-centre programs.
+</Note>
+
+## Next steps
+
+- [SSP accounting concept](/user-guide/accounting-concepts/ssp)
+- [Breakage recognition](/user-guide/program-setup/breakage-recognition)

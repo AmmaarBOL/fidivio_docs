@@ -1,0 +1,31 @@
+---
+title: "Redemptions"
+description: "Upload points redeemed and cost per point by partner and redemption type."
+---
+
+Redemptions records points members redeemed in a given period and the actual cost to fulfil those redemptions.
+
+**Location:** Setup & Support → Data Input → Redemptions
+
+## When to use
+
+Enter a record for every period with member redemptions. Where redemption types or partners have materially different costs per point, use separate rows for each combination.
+
+<Tip>
+Cost per point should reflect the actual blended cost for the period — not the retail value of the reward.
+</Tip>
+
+## Fields
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `redemption_type` | Label for redemption type (e.g. Flight Award, Retail Voucher) | Text | Yes |
+| `redemption_partner_code` | Partner fulfilling the redemption. Must match configured code | Text | Yes |
+| `currency` | Currency of redemption cost | ISO 4217 | Yes |
+| `cost_per_point` | Average cost to fulfil one point = Total cost ÷ Points redeemed | Numeric ≥ 0 | Yes |
+| `points_redeemed` | Total points redeemed in this period for this type and partner | Integer ≥ 0 | Yes |
+
+## Next steps
+
+- [Accruals](/user-guide/data-categories/accruals)
+- [CSV upload workflow](/user-guide/data-input/csv-upload-workflow)

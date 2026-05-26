@@ -1,0 +1,31 @@
+---
+title: "Reconciliation Bridge"
+description: "Formal reconciliation from Adjusted EBITDA to IFRS Profit and long-run convergence."
+---
+
+The model provides a formal reconciliation confirming the two P&L views are arithmetically consistent.
+
+## Reconciliation formula
+
+```
+IFRS_Profit = Adjusted_EBITDA
+            − Change_in_deferred_revenue_balance (closing − opening liability)
+            − Adjustment_1 (redemption pattern)
+            − Adjustment_2 (change in CPP)
+            − Adjustment_3 (change in breakage)
+```
+
+*The change in deferred revenue is the key bridging item: when the liability increases (more revenue deferred than released), IFRS profit is lower than Adjusted EBITDA. When the liability decreases (more revenue released than deferred), IFRS profit is higher.*
+
+<Info>
+**Bridge to Adjusted EBITDA:** The change in the Liability Balance (closing minus opening liability) is the key reconciling item between Adjusted EBITDA and IFRS Profit. When the liability grows, IFRS profit is lower than Adjusted EBITDA by exactly that amount. When it shrinks, IFRS profit is higher. Over the programme lifetime the two views converge to the same cumulative total.
+</Info>
+
+## Long-run convergence
+
+Over the full lifetime of the programme — when all points have been redeemed, expired, or broken — the cumulative IFRS Profit and cumulative Adjusted EBITDA must be equal. The timing differences between the two views net to zero over the programme's life.
+
+## Next steps
+
+- [Components reference](/technical-memo/components)
+- [User guide — Financial dashboards](/user-guide/platform-navigation/financial-dashboards)

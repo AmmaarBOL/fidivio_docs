@@ -1,0 +1,44 @@
+---
+title: "Error handling"
+description: "Identify and fix CSV upload errors using handback files."
+---
+
+When a batch upload fails, Fidivio provides a handback file showing the specific error for each failed row.
+
+<Steps>
+  <Step title="Open the data category">
+    Go to the specific category under **Data Input**.
+  </Step>
+  <Step title="Open Batches tab">
+    Select the failed file and click the **View** icon.
+  </Step>
+  <Step title="Download handback file">
+    The handback file is your original CSV with an additional column highlighting errors per row.
+  </Step>
+  <Step title="Correct and re-upload">
+    Fix affected rows and upload the corrected file as a new batch.
+  </Step>
+</Steps>
+
+<Warning>
+Failed uploads process no data. Do not assume partial imports — fix all errors and re-upload the complete corrected file.
+</Warning>
+
+## Common errors
+
+| Error type | Typical cause | Fix |
+| --- | --- | --- |
+| Unknown partner code | Partner not configured or Inactive | Add or activate partner; verify case |
+| Invalid date format | Date not in `yyyy-mm-dd` | Reformat dates |
+| Missing required field | Empty required column | Populate the field |
+| Unknown category/item | Not pre-configured via manual entry | Create category/item before batch upload |
+| Invalid `id` for update/delete | Wrong or missing record ID | Export data to obtain correct `id` |
+
+<Tip>
+Keep a copy of your original upload file. Compare against the handback file to track which rows changed.
+</Tip>
+
+## Next steps
+
+- [Upload errors troubleshooting](/user-guide/troubleshooting/upload-errors)
+- [CSV specifications](/user-guide/reference/csv-specifications)

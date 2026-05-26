@@ -1,0 +1,30 @@
+---
+title: "Breakage recognition"
+description: "Configure how and when breakage revenue is recognized in Fidivio."
+---
+
+Breakage refers to the portion of loyalty points that members are not expected to redeem. This setting determines the timing and method of revenue recognition for these unexercised rights.
+
+In general, breakage income should be released progressively over time so the liability balance reflects the remaining obligation.
+
+## Settings
+
+| Setting | Description | When to use |
+| --- | --- | --- |
+| **1 (Default) — In proportion to redemption** | Breakage revenue is recognized in proportion to redemption. As points are redeemed each period, a proportionate share of expected breakage is also recognized. Breakage income = (Points redeemed in period ÷ Total points expected to be redeemed) × Total breakage revenue. | IFRS 15 default method. Recommended for all programs, especially where points do not expire or expiry is triggered by inactivity. |
+| **2 — In proportion to validity period** | Breakage revenue is recognized in proportion to the validity period. Expected breakage is spread evenly over the points' validity window regardless of redemption activity. Validity period (in months) must be configured in data input. | Use when the program has explicit point expiry dates and expiry is the primary driver of breakage. A breakage reconciliation input is required. |
+| **3 — On actual expiry events** | Breakage revenue is recognized based on actual expiry events. Revenue is only recognized when points are formally expired and removed from member accounts. | Use when the entity cannot reliably estimate breakage in advance, or prefers a conservative policy. |
+
+<Tip>
+Setting 1 is the IFRS 15 default and works well for most programs. Switch to Setting 2 only when expiry dates drive breakage, or Setting 3 when you cannot reliably estimate breakage.
+</Tip>
+
+<Warning>
+Setting 2 requires a `points_validity` input in Breakage Levels data and may require `breakage_reconciliation` when actual expiry differs from estimates.
+</Warning>
+
+## Next steps
+
+- [Breakage recognition concept](/user-guide/accounting-concepts/breakage-recognition)
+- [Breakage levels data](/user-guide/data-categories/breakage-levels)
+- [Expiry data](/user-guide/data-categories/expiry)

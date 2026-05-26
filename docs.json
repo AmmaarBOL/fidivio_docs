@@ -11,21 +11,117 @@
     "light": "/favicon.svg",
     "dark": "/favicon.svg"
   },
+  "icons": {
+    "library": "lucide"
+  },
   "navigation": {
     "tabs": [
       {
         "tab": "User Guide",
         "groups": [
           {
-            "group": "User Guide",
+            "group": "Getting Started",
+            "icon": "rocket",
             "pages": [
-              "user-guide/introduction",
-              "user-guide/getting-started",
-              "user-guide/platform-navigation",
-              "user-guide/program-setup",
-              "user-guide/partner-management",
-              "user-guide/user-role-management",
-              "user-guide/data-input"
+              "user-guide/getting-started/introduction",
+              "user-guide/getting-started/what-is-fidivio",
+              "user-guide/getting-started/platform-overview",
+              "user-guide/getting-started/quick-start",
+              "user-guide/getting-started/first-login",
+              "user-guide/getting-started/initial-setup-checklist"
+            ]
+          },
+          {
+            "group": "Platform Navigation",
+            "icon": "compass",
+            "pages": [
+              "user-guide/platform-navigation/dashboard-overview",
+              "user-guide/platform-navigation/financial-dashboards",
+              "user-guide/platform-navigation/growth-tools",
+              "user-guide/platform-navigation/setup-support"
+            ]
+          },
+          {
+            "group": "Program Setup",
+            "icon": "settings",
+            "pages": [
+              "user-guide/program-setup/program-information",
+              "user-guide/program-setup/currency-settings",
+              "user-guide/program-setup/existing-program-balances",
+              "user-guide/program-setup/accounting-configuration"
+            ]
+          },
+          {
+            "group": "Accounting Concepts",
+            "icon": "scale",
+            "pages": [
+              "user-guide/program-setup/applied-ssp",
+              "user-guide/program-setup/breakage-recognition",
+              "user-guide/program-setup/deferred-revenue-true-up",
+              "user-guide/program-setup/revenue-recognition-logic"
+            ]
+          },
+          {
+            "group": "Partner Management",
+            "icon": "handshake",
+            "pages": [
+              "user-guide/partner-management/managing-partners",
+              "user-guide/partner-management/partner-configuration"
+            ]
+          },
+          {
+            "group": "User Management",
+            "icon": "users",
+            "pages": [
+              "user-guide/user-role-management/roles-permissions",
+              "user-guide/user-role-management/managing-users",
+              "user-guide/user-role-management/security-2fa"
+            ]
+          },
+          {
+            "group": "Data Input",
+            "icon": "upload",
+            "pages": [
+              "user-guide/data-input/overview",
+              "user-guide/data-input/csv-upload-workflow",
+              "user-guide/data-input/batch-uploads",
+              "user-guide/data-input/upload-validation",
+              "user-guide/data-input/upload-status",
+              "user-guide/data-input/error-handling",
+              "user-guide/data-input/exporting-data"
+            ]
+          },
+          {
+            "group": "Data Categories",
+            "icon": "database",
+            "pages": [
+              "user-guide/data-categories/accruals",
+              "user-guide/data-categories/breakage-levels",
+              "user-guide/data-categories/expiry",
+              "user-guide/data-categories/other-revenue-sources",
+              "user-guide/data-categories/program-costs",
+              "user-guide/data-categories/redemptions",
+              "user-guide/data-categories/sales-information"
+            ]
+          },
+          {
+            "group": "Troubleshooting",
+            "icon": "life-buoy",
+            "pages": [
+              "user-guide/troubleshooting/upload-errors",
+              "user-guide/troubleshooting/login-issues",
+              "user-guide/troubleshooting/2fa-reset",
+              "user-guide/troubleshooting/common-setup-problems"
+            ]
+          },
+          {
+            "group": "Reference",
+            "icon": "book-marked",
+            "pages": [
+              "user-guide/reference/csv-specifications",
+              "user-guide/reference/field-definitions",
+              "user-guide/reference/glossary",
+              "user-guide/reference/faqs"
             ]
           }
         ]
@@ -34,25 +130,54 @@
         "tab": "Technical Memorandum",
         "groups": [
           {
-            "group": "Technical Memorandum",
+            "group": "Overview",
+            "icon": "book-open",
             "pages": [
               "technical-memo/introduction",
-              "technical-memo/change-control",
-              "technical-memo/components",
-              "technical-memo/configuration",
+              "technical-memo/change-control"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "icon": "sliders-horizontal",
+            "pages": [
+              "technical-memo/configuration/overview",
+              "technical-memo/configuration/program-type",
+              "technical-memo/configuration/liability-true-up",
+              "technical-memo/configuration/breakage-protocol",
+              "technical-memo/configuration/applied-ssp",
+              "technical-memo/configuration-effects-summary"
+            ]
+          },
+          {
+            "group": "Calculations",
+            "icon": "calculator",
+            "pages": [
               "technical-memo/inputs",
-              "technical-memo/calculations-outputs",
-              "technical-memo/configuration-effects-summary",
+              "technical-memo/calculations/deferred-revenue-dashboard",
+              "technical-memo/calculations/deferred-revenue-ifrs-relationship",
+              "technical-memo/calculations/ifrs-pl",
+              "technical-memo/calculations/adjusted-ebitda-pl",
+              "technical-memo/calculations/pl-relationship",
+              "technical-memo/calculations/reconciliation"
+            ]
+          },
+          {
+            "group": "Accounting Background",
+            "icon": "graduation-cap",
+            "pages": [
+              "technical-memo/background-ssp",
+              "technical-memo/background-contract-liability",
+              "technical-memo/background-breakage-income",
+              "technical-memo/background-marketing-income"
+            ]
+          },
+          {
+            "group": "Reference",
+            "icon": "library",
+            "pages": [
+              "technical-memo/components",
               "technical-memo/accounting-definitions",
-              {
-                "group": "Background",
-                "pages": [
-                  "technical-memo/background-ssp",
-                  "technical-memo/background-marketing-income",
-                  "technical-memo/background-breakage-income",
-                  "technical-memo/background-contract-liability"
-                ]
-              },
               "technical-memo/miscellaneous"
             ]
           }
@@ -72,14 +197,16 @@
     ]
   },
   "logo": {
-    "light": "/logo/fidivio-logo.png",
-    "dark": "/logo/fidivio-logo.png"
+    "light": "/logo/fidivio-light.png",
+    "dark": "/logo/fidivio-logo.png",
+    "href": "/user-guide/getting-started/introduction"
   },
   "navbar": {
     "links": [
       {
         "label": "Website",
-        "href": "https://www.fidivio.com"
+        "href": "https://www.fidivio.com",
+        "icon": "globe"
       }
     ]
   },
@@ -89,7 +216,8 @@
     }
   },
   "appearance": {
-    "default": "dark"
+    "default": "dark",
+    "strict": false
   },
   "contextual": {
     "options": [
@@ -98,7 +226,72 @@
     ],
     "display": "header"
   },
-  "redirects": [],
+  "redirects": [
+    {
+      "source": "/user-guide/introduction",
+      "destination": "/user-guide/getting-started/introduction"
+    },
+    {
+      "source": "/user-guide/getting-started",
+      "destination": "/user-guide/getting-started/quick-start"
+    },
+    {
+      "source": "/user-guide/platform-navigation",
+      "destination": "/user-guide/platform-navigation/dashboard-overview"
+    },
+    {
+      "source": "/user-guide/program-setup",
+      "destination": "/user-guide/program-setup/program-information"
+    },
+    {
+      "source": "/user-guide/partner-management",
+      "destination": "/user-guide/partner-management/managing-partners"
+    },
+    {
+      "source": "/user-guide/user-role-management",
+      "destination": "/user-guide/user-role-management/roles-permissions"
+    },
+    {
+      "source": "/user-guide/data-input",
+      "destination": "/user-guide/data-input/overview"
+    },
+    {
+      "source": "/technical-memo/configuration",
+      "destination": "/technical-memo/configuration/overview"
+    },
+    {
+      "source": "/technical-memo/calculations-outputs",
+      "destination": "/technical-memo/calculations/deferred-revenue-dashboard"
+    },
+    {
+      "source": "/user-guide/accounting-concepts/ssp",
+      "destination": "/user-guide/program-setup/applied-ssp"
+    },
+    {
+      "source": "/user-guide/accounting-concepts/breakage-recognition",
+      "destination": "/user-guide/program-setup/breakage-recognition"
+    },
+    {
+      "source": "/user-guide/accounting-concepts/deferred-revenue",
+      "destination": "/user-guide/program-setup/deferred-revenue-true-up"
+    },
+    {
+      "source": "/user-guide/accounting-concepts/liability-true-up",
+      "destination": "/user-guide/program-setup/deferred-revenue-true-up"
+    },
+    {
+      "source": "/user-guide/accounting-concepts/ifrs-revenue-logic",
+      "destination": "/user-guide/program-setup/revenue-recognition-logic"
+    },
+    {
+      "source": "/user-guide/partner-management/partner-types",
+      "destination": "/user-guide/partner-management/partner-configuration"
+    },
+    {
+      "source": "/user-guide/user-role-management/creating-roles",
+      "destination": "/user-guide/user-role-management/roles-permissions"
+    }
+  ],
   "interaction": {
     "drilldown": true
   },
@@ -118,12 +311,7 @@
   "thumbnails": {
     "appearance": "dark"
   },
-  "banner": {
-    "content": "Documentation In Progress...",
-    "dismissible": true,
-    "type": "info"
-  },
   "fonts": {
-    "family": "Aptos"
+    "family": "Inter"
   }
 }

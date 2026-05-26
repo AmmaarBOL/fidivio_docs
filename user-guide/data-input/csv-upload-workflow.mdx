@@ -1,0 +1,45 @@
+---
+title: "CSV upload workflow"
+sidebarTitle: "Upload workflow"
+description: "End-to-end workflow for preparing and uploading CSV data to Fidivio."
+---
+
+Follow this workflow for every batch upload. It applies to all seven data categories.
+
+<Steps>
+  <Step title="Prepare your data">
+    Confirm partner codes exist, accounting settings are finalized, and source data is reconciled for the period.
+  </Step>
+  <Step title="Download the CSV template">
+    In the relevant data category, click **+ Add → Upload** and download the template for that category.
+  </Step>
+  <Step title="Populate the file">
+    Fill in rows using `insert` for new records. Leave `id` blank for inserts. See [CSV specifications](/user-guide/reference/csv-specifications).
+  </Step>
+  <Step title="Upload the file">
+    Upload the completed CSV via **Add → Upload**.
+  </Step>
+  <Step title="Validate the upload">
+    Go to the **Batches** tab and confirm status is **Success**. See [Upload status](/user-guide/data-input/upload-status).
+  </Step>
+  <Step title="Fix errors if needed">
+    If status is **Failed with Errors**, download the handback file, correct rows, and re-upload. See [Error handling](/user-guide/data-input/error-handling).
+  </Step>
+</Steps>
+
+<Frame caption="CSV upload workflow">
+  ![CSV upload](/images/user-guide/data-input/csv-upload-workflow.png)
+</Frame>
+
+<Tip>
+Upload one category at a time for your first migration. Validate each category on dashboards before proceeding to the next.
+</Tip>
+
+<Warning>
+Category-specific values like `revenue_category`, `cost_category`, and partner codes must be pre-configured before batch upload. They cannot be created during CSV import.
+</Warning>
+
+## Next steps
+
+- [Batch uploads](/user-guide/data-input/batch-uploads)
+- [CSV specifications](/user-guide/reference/csv-specifications)

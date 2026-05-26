@@ -1,0 +1,41 @@
+---
+title: "Security & 2FA"
+description: "Manage passwords, two-factor authentication, and account security in Fidivio."
+---
+
+Fidivio requires two-factor authentication (2FA) for all users. Administrators can reset passwords and 2FA when users lose access.
+
+## Reset password or 2FA
+
+<Steps>
+  <Step title="Open User Management">
+    Navigate to **Setup & Support → Configuration → User Management**.
+  </Step>
+  <Step title="Open options">
+    Click the **more options (three dots) icon** on the user's row.
+  </Step>
+  <Step title="Select reset type">
+    Choose **Reset Password** or **Reset 2FA**.
+  </Step>
+  <Step title="User completes setup">
+    The user receives an email with instructions to complete the reset.
+  </Step>
+</Steps>
+
+## When to use each reset
+
+| Action | Use when |
+| --- | --- |
+| **Reset Password** | User forgot their password |
+| **Reset 2FA** | User changed or lost their authentication device |
+
+Use **Reset 2FA** when a user has changed or lost their authenticator device. The user re-registers their app on next login.
+
+<Warning>
+Only administrators with User Management permissions can reset 2FA. Users cannot self-service 2FA reset without admin action.
+</Warning>
+
+## Next steps
+
+- [First login](/user-guide/getting-started/first-login)
+- [2FA reset troubleshooting](/user-guide/troubleshooting/2fa-reset)

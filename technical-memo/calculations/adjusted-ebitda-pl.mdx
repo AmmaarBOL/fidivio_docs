@@ -1,0 +1,161 @@
+---
+title: "Adjusted EBITDA P&L"
+description: "Gross billings basis P&L and the three Adjusted EBITDA corrections."
+---
+
+The Adjusted EBITDA P&L presents programme economics on a gross billings basis with three corrective adjustments.
+
+## Statement structure
+
+The Adjusted EBITDA P&L presents programme economics on a **gross billings basis**: revenue is recognised when points are issued, not when they are redeemed. Three potential adjustments then correct for differences between expected and actual programme behaviour, producing a measure of sustainable economic performance.
+
+```
+  Gross Billings
++ Non-Point Revenue
+− Total Cost of Redemptions
+− Program Running Cost
+  ─────────────────────────────────────────────────
+= EBITDA
+
+± Adjustment for Future Redemption
+± Adjustment for Change in Cost Per Point
+± Adjustment for Change in Breakage
+  ─────────────────────────────────────────────────
+= Adjusted EBITDA
+```
+
+<Info>
+**Basis:** Unlike IFRS, revenue is not deferred. The program recognises the full proceeds from point issuances in the period they occur. The three adjustments then smooth for volatility caused by timing mismatches, cost changes, and estimate revisions.
+</Info>
+
+### Line Item: Gross Billings from Points
+
+Gross Billings represents the total proceeds received from the issuance of loyalty points in the period. It is the top-line revenue measure under the Adjusted EBITDA view.
+
+```
+= points_issued × yield_per_point
+```
+
+*Both inputs are direct per-period values. This equals the cash received (or receivable) from partners for points sold in the period.*
+
+<Note>
+The two sub-lines sum exactly to Gross Billings from Points. They are analytical only and do not affect the total. The split uses the per-period breakage rate input applied to that period's issuances.
+</Note>
+
+### Calculating the Gross Profit (EBITDA)
+
+```
+= Total_Gross_Billings − Total_Costs
+
+= (Gross_Billings_from_Points + Non-points_revenues)
+− (Cost_of_redemptions + Program_running_costs)
+```
+
+*Gross Profit before adjustments. Can be volatile if redemption volumes, issuance volumes, or costs fluctuate materially from period to period.*
+
+---
+
+### The Potential Adjustments
+
+Gross Profit under the Adjusted EBITDA view captures revenue at issuance but costs at redemption. This timing mismatch — and changes in the estimates underpinning the programme — can cause Gross Profit to be a misleading measure of economic performance in any given period. The three adjustments correct for this:
+
+| Adjustment | Purpose |
+|---|---|
+| **Adjustment 1** | Corrects for the difference between actual and expected redemption volumes in the period. |
+| **Adjustment 2** | Corrects for changes in the cost per point redeemed versus prior periods. |
+| **Adjustment 3** | Corrects for changes in the breakage outlook. |
+
+---
+
+### Adjustment 1 — Redemption Pattern
+
+Gross Billings from Points is recognised when points are issued, based on the expected redemption rate. Redemption costs, however, are recognised when actual redemptions occur. When actual redemptions in a period differ from expectations, an imbalance arises between the revenue (already recognised at issuance) and the costs (recognised now). Adjustment 1 corrects this.
+
+```
+= (Expected points-redeemed − actual points redeemed in current period) × latest_CPP
+```
+
+Where:
+- `expected_points_redeemed = points_issued × (1 − breakage_rate)`
+- `latest_CPP = cost_per_point_redeemed (current period)`
+
+| Scenario | Effect and Interpretation |
+|---|---|
+| **actual < expected (shortfall)** | Adjustment is negative. Revenue has been recognised for more redemptions than actually occurred. The model provisions for the cost of future redemptions that have not yet happened. A shortfall means the programme has collected money for obligations not yet discharged. |
+| **actual > expected (excess)** | Adjustment is positive. Actual redemptions exceeded prediction, meaning redemption costs were higher than anticipated. The excess adjusts back toward the level implied by the original billings. Prior-period provisions are partially released. |
+| **actual = expected** | Adjustment is zero. Revenue recognised at issuance perfectly matches the pattern of actual cost discharge. No correction needed. |
+
+---
+
+### Adjustment 2 — Change in Cost Per Point
+
+The cost per point redeemed (CPP) can change over time as redemption mix, reward pricing, or procurement costs shift. When CPP changes, the provision for the cost of all outstanding, unredeemed points changes accordingly. Adjustment 2 restates this provision to reflect the current CPP.
+
+```
+Step 1: Calculate CPP change
+  diff_CPP = latest_CPP − previous_period_CPP
+
+Step 2: Apply to future outstanding points
+  adj_2 = diff_CPP × points_still_expected_to_be_redeemed_in_future
+```
+
+Where:
+- `points_still_expected_to_redeem = cumulative_expected_to_redeem − cumulative_actually_redeemed`
+- If `diff_CPP = 0`: `adj_2 = 0`
+
+| Scenario | Effect |
+|---|---|
+| **CPP increases** | diff_CPP is positive. Future redemptions will cost more. Adjustment is negative (additional provision). |
+| **CPP decreases** | diff_CPP is negative. Future redemptions will cost less. Adjustment is positive (release of over-provision). |
+| **CPP unchanged** | Adjustment is zero. |
+
+<Note>
+**Scope:** The adjustment applies only to points still outstanding and expected to be redeemed in the future. Points already redeemed have already been costed at the actual CPP incurred, so no restatement is needed for past activity.
+</Note>
+
+---
+
+### Adjustment 3 — Change in Breakage Estimate
+
+When the programme's view of ultimate breakage changes — i.e. the proportion of points expected never to be redeemed shifts — the expected volume of future redemptions also changes, which in turn changes the expected future cost burden. Adjustment 3 corrects for this.
+
+```
+adj_3 = − breakage_adjustment_pts × latest_CPP
+```
+
+Where:
+- `breakage_adjustment_pts` = adjustment_to_breakage input (points)
+- Positive input (more breakage, fewer redemptions expected): → adj_3 is positive (future cost provision released)
+- Negative input (less breakage, more redemptions expected): → adj_3 is negative (additional future cost provisioned)
+
+*It represents a retrospective revision to the expected number of outstanding points that will break. It is expressed in points, not as a rate.*
+
+<Info>
+**Relationship to IFRS:** Under IFRS User Option 2=2, the same breakage revision also triggers a true-up to the contract liability. In Adjusted EBITDA, Adjustment 3 performs the analogous function but on a cash-cost basis (using CPP) rather than an SSP-deferred-revenue basis.
+</Info>
+
+<Info>
+**Interpretation:** In steady state (redemption rate matches the breakage rate assumption), Adjustment 1 will be small and stable. It becomes material when the program burn/earn rate is much lower than predicted breakage.
+</Info>
+
+---
+
+### Calculating Adjusted EBITDA
+
+```
+= Gross_Profit
+± Adjustment_1 (redemption pattern)
+± Adjustment_2 (change in cost per point)
+± Adjustment_3 (change in breakage estimate)
+```
+
+*In steady state with stable estimates, all three adjustments approach zero and Adjusted EBITDA converges to Gross Profit. Adjustments only become material when actual behaviour departs from predictions.*
+
+<Info>
+**Design intent:** Adjusted EBITDA is designed to approximate the sustainable economic earnings of the programme in each period — stripped of IFRS timing effects (deferral and release of deferred revenue) and corrected for the variance between expected and actual programme experience. It is intended to be stable and predictable in mature, well-calibrated programmes.
+</Info>
+
+## Next steps
+
+- [Relationship between the two P&Ls](/technical-memo/calculations/pl-relationship)
+- [Reconciliation bridge](/technical-memo/calculations/reconciliation)
