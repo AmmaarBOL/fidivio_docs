@@ -7,10 +7,7 @@
     "light": "#FB923C",
     "dark": "#EA580C"
   },
-  "favicon": {
-    "light": "/favicon.svg",
-    "dark": "/favicon.svg"
-  },
+  "favicon": "/favicon.svg",
   "icons": {
     "library": "lucide"
   },
@@ -213,7 +210,18 @@
   "footer": {
     "socials": {
       "website": "https://www.fidivio.com"
-    }
+    },
+    "links": [
+      {
+        "header": "© Fidivio. All rights reserved.",
+        "items": [
+          {
+            "label": "©Fidivio. All rights reserved.",
+            "href": "https://fidivio.com/"
+          }
+        ]
+      }
+    ]
   },
   "appearance": {
     "default": "dark",
