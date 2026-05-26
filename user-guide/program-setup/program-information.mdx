@@ -1,0 +1,45 @@
+---
+title: "Program information"
+description: "Configure core program details in Fidivio."
+---
+
+Navigate to **Setup & Support → Configuration → Program Setup** to define the core attributes of your loyalty program.
+
+<Frame caption="Program Setup — Program Info section">
+  ![Program Setup screen](/images/user-guide/program-setup/program-information.png)
+</Frame>
+
+## Fields
+
+| Field | Description | Format | Required |
+| --- | --- | --- | --- |
+| **Program Name** | Name of your loyalty program | Text | Yes |
+| **Program Type** | Profit Centre Model or Conventional Model | Selection | Yes |
+| **Start Date** | Date the program commenced | Date | Yes |
+| **End Date** | Date the program ends, if applicable | Date | Optional |
+| **Country** | Country where the program operates | Selection | Yes |
+| **Timezone** | System timezone for reporting and calculations | Selection | Yes |
+| **Program Currency Name** | Name of your loyalty currency (e.g. Points, Miles) | Text | Yes |
+| **Monetary Currency Code** | Currency for financial reporting (e.g. USD, EUR) | ISO 4217 | Yes |
+| **Fiscal Year Start Month** | Month your financial year begins | Selection | Yes |
+| **Program / Company Logo** | Logo displayed across the platform | Image upload | Optional |
+
+## Program type
+
+<Tabs>
+  <Tab title="Profit Centre Model">
+    The program operates as a P&L. Points are sold to partners and rewards are purchased. Yield per point is captured in accrual data.
+  </Tab>
+  <Tab title="Conventional Model">
+    The program operates as a cost center. No points are sold — only revenue deferral takes place. Requires Sales Information data.
+  </Tab>
+</Tabs>
+
+<Note>
+Program type affects which data categories you need and whether marketing income is calculated. See [Sales Information](/user-guide/data-categories/sales-information) for conventional model requirements.
+</Note>
+
+## Next steps
+
+- [Currency settings](/user-guide/program-setup/currency-settings)
+- [Existing program balances](/user-guide/program-setup/existing-program-balances)

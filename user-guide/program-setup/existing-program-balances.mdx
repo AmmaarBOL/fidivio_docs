@@ -1,0 +1,43 @@
+---
+title: "Existing program balances"
+sidebarTitle: "Existing balances"
+description: "Set opening balances when migrating an existing loyalty program to Fidivio."
+---
+
+Use this section when migrating data from an existing loyalty program. It sets opening balances for the first data year in Fidivio.
+
+Navigate to **Setup & Support → Configuration → Program Setup → Existing Program Balance**.
+
+<Warning>
+Leave these fields blank if you are setting up a new program with no prior history. Incorrect opening balances affect all subsequent deferred revenue and liability calculations.
+</Warning>
+
+## Fields
+
+| Field | Description | Format | Required |
+| --- | --- | --- | --- |
+| **Opening Points Balance** | Total outstanding points at the beginning of the first data year — cumulative points issued but not yet redeemed prior to the first data year | Numeric | Optional |
+| **Opening Redeemed Points** | Points from the opening balance expected to be redeemed (must be ≤ total opening balance). Used to determine the breakage estimate applied to the opening balance | Numeric | Optional |
+| **Opening Deferred Revenue Balance** | Deferred revenue (contract liability) balance carried over from the prior program, corresponding to the monetary value of the opening points balance | Numeric | Optional |
+
+## Migration checklist
+
+<Steps>
+  <Step title="Confirm opening points">
+    Reconcile total outstanding points with your legacy system as at the migration date.
+  </Step>
+  <Step title="Estimate expected redemption">
+    Set opening redeemed points based on your breakage estimate for the opening balance.
+  </Step>
+  <Step title="Enter liability balance">
+    Enter the deferred revenue balance that corresponds to the opening points balance.
+  </Step>
+  <Step title="Validate on dashboards">
+    After uploading first-period data, confirm the Deferred Revenue Dashboard roll-forward is consistent.
+  </Step>
+</Steps>
+
+## Next steps
+
+- [Accounting configuration](/user-guide/program-setup/accounting-configuration)
+- [Breakage levels data](/user-guide/data-categories/breakage-levels)

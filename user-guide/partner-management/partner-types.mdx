@@ -1,0 +1,37 @@
+---
+title: "Partner types"
+description: "Understand accrual, redemption, and affiliation partner types in Fidivio."
+---
+
+Partner type determines how a partner interacts with your loyalty program and which data categories reference their partner code.
+
+## Partner type options
+
+| Type | Description | Data impact |
+| --- | --- | --- |
+| **Accrual** | Partner issues points to members | Referenced in Accruals and Sales Information data |
+| **Redemption** | Partner fulfils member rewards | Referenced in Redemptions data |
+| **Both** | Partner both issues and redeems points | Referenced in Accruals, Redemptions, and Sales Information |
+
+## Affiliation
+
+| Affiliation | Description |
+| --- | --- |
+| **Internal** | Partner linked to the program operator's own company |
+| **External** | Third-party partner organisation |
+
+## Partner status
+
+| Status | Behavior |
+| --- | --- |
+| **Active** | Appears in Data Input dropdowns; CSV uploads accepted |
+| **Inactive** | Hidden from manual entry; CSV uploads referencing the code are rejected |
+
+<Tip>
+Use **Both** sparingly — only when a single partner code genuinely covers both issuance and redemption. Separate codes often simplify reporting on the Partner Dashboard.
+</Tip>
+
+## Next steps
+
+- [Partner configuration](/user-guide/partner-management/partner-configuration)
+- [Accruals data](/user-guide/data-categories/accruals)

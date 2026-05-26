@@ -1,0 +1,42 @@
+---
+title: "Revenue recognition logic"
+sidebarTitle: "Revenue logic"
+description: "How the three accounting settings combine to drive IFRS income statement lines."
+---
+
+The three accounting settings — Applied SSP, Breakage Recognition, and Deferred Revenue True-up — work together to determine the full IFRS income statement.
+
+## Income statement impact
+
+| Income Statement Line | Driven By |
+| --- | --- |
+| **Revenue recognized (redemptions)** | All 3 settings. Applied SSP, Breakage Recognition, and Deferred Revenue True-up all influence the effective revenue rate per point recognised. |
+| **Breakage income** | Timing controlled by Breakage Recognition. Revenue per point also influenced by Applied SSP and Deferred Revenue True-up. |
+| **Marketing income** | Driven by Applied SSP. Arises when yield per point exceeds applied SSP. Higher when SSP is post-breakage (Yes). Does not apply to conventional model programs. |
+| **Adjustment for liability true-up** | Driven exclusively by Deferred Revenue True-up. Zero when Setting 1 (no true-up) is selected. |
+
+## Configuration matrix
+
+<CardGroup cols={2}>
+  <Card title="Applied SSP" href="/user-guide/program-setup/applied-ssp">
+    Affects revenue deferred at issuance and marketing income baseline.
+  </Card>
+  <Card title="Breakage recognition" href="/user-guide/program-setup/breakage-recognition">
+    Controls when breakage income is released to the P&L.
+  </Card>
+  <Card title="Deferred revenue true-up" href="/user-guide/program-setup/deferred-revenue-true-up">
+    Controls catch-up adjustments when estimates change.
+  </Card>
+  <Card title="IFRS revenue logic" href="/user-guide/accounting-concepts/ifrs-revenue-logic">
+    Conceptual overview of how revenue flows through the model.
+  </Card>
+</CardGroup>
+
+<Tip>
+For detailed calculation formulas, see the [Technical Memorandum — Configuration effects summary](/technical-memo/configuration-effects-summary).
+</Tip>
+
+## Next steps
+
+- [IFRS revenue logic](/user-guide/accounting-concepts/ifrs-revenue-logic)
+- [Financial dashboards](/user-guide/platform-navigation/financial-dashboards)

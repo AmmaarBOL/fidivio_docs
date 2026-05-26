@@ -1,0 +1,47 @@
+---
+title: "CSV specifications"
+description: "Technical specifications for Fidivio CSV batch uploads."
+---
+
+All data category CSV templates share a common structure and action conventions.
+
+## File format
+
+- Format: `.csv`
+- Encoding: UTF-8 recommended
+- First row: column headers matching the template
+
+## Column structure
+
+| Position | Column | Description |
+| --- | --- | --- |
+| 1 | `action` | `insert`, `update`, or `delete` |
+| 2 | `id` | Record ID (blank for insert; required for update/delete) |
+| 3+ | Category fields | See [Field definitions](/user-guide/reference/field-definitions) |
+
+## Action rules
+
+| Action | `id` column | Behavior |
+| --- | --- | --- |
+| `insert` | Leave blank | Creates new record; Fidivio assigns `id` |
+| `update` | Required | Overwrites existing record |
+| `delete` | Required | Removes existing record |
+
+## Date format
+
+All dates must use `yyyy-mm-dd` (e.g. `2026-05-20`).
+
+## Partner codes
+
+- Case-sensitive
+- Must match an **Active** partner in **Setup & Support → Partners**
+- Cannot be created during batch upload
+
+<Note>
+Export existing data to obtain `id` values needed for update and delete operations.
+</Note>
+
+## Next steps
+
+- [Batch uploads](/user-guide/data-input/batch-uploads)
+- [Field definitions](/user-guide/reference/field-definitions)

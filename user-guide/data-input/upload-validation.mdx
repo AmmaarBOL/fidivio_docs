@@ -1,0 +1,39 @@
+---
+title: "Upload validation"
+description: "What Fidivio validates during CSV batch upload processing."
+---
+
+When you submit a batch file, Fidivio validates each row before ingesting data. Failed rows block the entire batch until errors are resolved.
+
+## Common validation checks
+
+<AccordionGroup>
+  <Accordion title="Partner code validation">
+    Partner codes must match an Active partner configured in **Setup & Support → Partners**. Case-sensitive.
+  </Accordion>
+  <Accordion title="Date format">
+    `transaction_date` must be in `yyyy-mm-dd` format.
+  </Accordion>
+  <Accordion title="Required fields">
+    Category-specific required fields must be populated. Empty required fields cause row failure.
+  </Accordion>
+  <Accordion title="Pre-configured categories">
+    `revenue_category`, `revenue_item`, `cost_category`, and `cost_item` values must exist before batch upload.
+  </Accordion>
+  <Accordion title="Numeric constraints">
+    Values like `breakage_level` (0–100), `points_issued` (integer), and cost fields must meet format requirements.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+When errors are detected, the upload fails and no data is processed until all errors are resolved.
+</Warning>
+
+<Tip>
+Validate partner codes and pre-configured categories in a small test file before uploading large historical datasets.
+</Tip>
+
+## Next steps
+
+- [Upload status](/user-guide/data-input/upload-status)
+- [Error handling](/user-guide/data-input/error-handling)

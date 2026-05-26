@@ -1,0 +1,35 @@
+---
+title: "Upload errors"
+description: "Troubleshoot common CSV batch upload failures in Fidivio."
+---
+
+Most upload failures are caused by configuration gaps or formatting issues. Use the handback file to identify and fix each failed row.
+
+## Quick fixes
+
+| Symptom | Likely cause | Solution |
+| --- | --- | --- |
+| Unknown partner code | Partner missing or Inactive | Add/activate partner; check case sensitivity |
+| Upload fails entirely | One or more invalid rows | Download handback file; fix all errors; re-upload |
+| Category not found | Category/item not pre-configured | Create via manual entry before batch upload |
+| Invalid date | Wrong date format | Use `yyyy-mm-dd` |
+| Update/delete fails | Wrong `id` | Export data to obtain correct record IDs |
+
+<Steps>
+  <Step title="Check Batches tab">
+    Confirm status is **Failed with Errors**.
+  </Step>
+  <Step title="Download handback">
+    Get the file with error column per row.
+  </Step>
+  <Step title="Fix and re-upload">
+    Correct all failed rows and submit as a new batch.
+  </Step>
+</Steps>
+
+See [Error handling](/user-guide/data-input/error-handling) for the full workflow.
+
+## Next steps
+
+- [Upload validation](/user-guide/data-input/upload-validation)
+- [CSV specifications](/user-guide/reference/csv-specifications)

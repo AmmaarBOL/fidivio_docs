@@ -1,0 +1,51 @@
+---
+title: "Liability true-up"
+description: "Parameter 2 — select the impact of breakage and SSP estimate changes."
+---
+
+Under Parameter 2, select what happens when there are changes in the breakage outlook and/or the standalone selling price.
+
+## Option 1: No Automatic True-up (Default)
+
+Under this option, any changes to the liability are entered as a direct input (i.e. the user calculates the input, not the model), by entering a positive value to increase the liability or a negative value to release it. Estimate changes are absorbed gradually through the evolving `rev_per_point` rate rather than as a one-period catch-up.
+
+## Option 2: True-up for Breakage Rate Change
+
+Under this option, only when the SSP is adjusted for breakage (Parameter 4 is set to Option 1), a true-up results from a reclassification of points from the 'expected to be redeemed pool' to the 'expected not to be redeemed pool' or vice versa.
+
+**Calculation: True-up for breakage rate change**
+
+```
+IF(Parameter 4 = 1, Breakage_adjustment_pts × SSP_before_breakage, 0)
+```
+
+*When Parameter 4 is 2 (SSP is not adjusted for breakage), the model provisions at full face-value SSP regardless of breakage rate, so a change in breakage rate does not alter the liability.*
+
+| Scenario | Effect |
+| --- | --- |
+| **Less breakage** (negative adj_pts) → points shifted from 'expected not to be redeemed pool' to 'expected to be redeemed pool' | Liability increases → P&L charge. Fewer points now expected to break; obligation topped up. |
+| **More breakage** (positive adj_pts) → points shifted from 'expected to be redeemed pool' to 'expected not to be redeemed pool' | Liability decreases → P&L gain. More points now expected to break; excess provision released. |
+| **When Parameter 4 = Option 2** (SSP not adjusted) | No impact from breakage change. Full face-value SSP already provisioned for every point; breakage rate change has no liability impact. |
+
+## Option 3: True-up for Breakage Rate Change and SSP Change
+
+When selecting option 3 under Parameter 2, the model, in addition to the impact of a change in breakage, also calculates the true-up resulting from a change in SSP.
+
+**Calculation: True-up for SSP change**
+
+```
+Outstanding_points(according to P4=1) × New_Applied_SSP − Current_liability_balance
+```
+
+Where `Current_liability_balance` = Liability before recognition – Revenue recognized Red – Revenue recognized Br
+
+**Direction:** A higher SSP produces a liability top-up (P&L charge). A lower SSP produces a liability release (P&L gain). Every outstanding point is revalued simultaneously.
+
+<Note>
+**Sign convention:** A positive adjustment to Deferred Revenue increases the liability. In the IFRS P&L, the Adjustment for liability true-up line is the inverse of the adjustment. So a positive liability increase produces a negative P&L line (a charge), and a negative liability release produces a positive P&L line (a gain).
+</Note>
+
+## Next steps
+
+- [Breakage protocol](/technical-memo/configuration/breakage-protocol)
+- [Deferred revenue dashboard](/technical-memo/calculations/deferred-revenue-dashboard)

@@ -1,0 +1,45 @@
+---
+title: "IFRS revenue logic"
+description: "How configuration settings combine to produce the IFRS income statement."
+---
+
+Fidivio's IFRS income statement is driven by three configuration settings working together with your uploaded data.
+
+## Revenue lines
+
+| Line | Primary driver |
+| --- | --- |
+| Revenue recognized (redemptions) | Applied SSP + Breakage Recognition + True-up |
+| Breakage income | Breakage Recognition timing |
+| Marketing income | Applied SSP (profit-centre programs only) |
+| Adjustment for liability true-up | Deferred Revenue True-up setting |
+
+<Frame caption="IFRS income statement structure">
+  ![IFRS revenue logic](/images/user-guide/accounting-concepts/ifrs-revenue-logic.png)
+</Frame>
+
+## Configuration flow
+
+<Steps>
+  <Step title="Points issued">
+    Accruals and Breakage Levels data drive initial deferral at applied SSP.
+  </Step>
+  <Step title="Redemptions">
+    Revenue recognized per point based on configuration and evolving liability balance.
+  </Step>
+  <Step title="Breakage release">
+    Breakage income timing follows your Breakage Recognition setting.
+  </Step>
+  <Step title="Estimate changes">
+    True-up setting determines whether catch-up adjustments hit the P&L.
+  </Step>
+</Steps>
+
+<Tip>
+See [Revenue recognition logic](/user-guide/program-setup/revenue-recognition-logic) for the configuration matrix and [Technical Memorandum](/technical-memo/calculations/ifrs-pl) for calculation detail.
+</Tip>
+
+## Next steps
+
+- [Revenue recognition logic](/user-guide/program-setup/revenue-recognition-logic)
+- [IFRS P&L calculations](/technical-memo/calculations/ifrs-pl)

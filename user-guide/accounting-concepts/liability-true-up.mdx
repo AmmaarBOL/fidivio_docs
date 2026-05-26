@@ -1,0 +1,27 @@
+---
+title: "Liability true-up"
+description: "How Fidivio handles catch-up adjustments when breakage or SSP estimates change."
+---
+
+When breakage rates or standalone selling prices change, the contract liability for outstanding points may need restatement. The true-up setting controls whether Fidivio applies automatic catch-up adjustments.
+
+## Three approaches
+
+| Setting | Behavior |
+| --- | --- |
+| **No true-up (default)** | Liability fixed at initial deferral; changes absorbed through revenue-per-point rate |
+| **True-up for breakage** | Automatic restatement when breakage adjustment is entered |
+| **True-up for SSP** | All outstanding points remeasured when SSP changes |
+
+<Warning>
+True-up for breakage changes is not applicable when applied SSP is not adjusted for breakage.
+</Warning>
+
+## P&L impact
+
+True-up adjustments appear on the IFRS income statement as **Adjustment for liability true-up**. This line is zero when no true-up setting is selected.
+
+## Next steps
+
+- [Deferred revenue true-up setting](/user-guide/program-setup/deferred-revenue-true-up)
+- [Breakage levels data](/user-guide/data-categories/breakage-levels)

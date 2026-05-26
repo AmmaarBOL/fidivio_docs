@@ -1,0 +1,37 @@
+---
+title: "Deferred revenue true-up"
+description: "Configure how Fidivio adjusts contract liability when breakage or SSP estimates change."
+---
+
+As your program matures, estimates of breakage rates and standalone selling prices may change. When either changes, the contract liability for outstanding points may need to be restated.
+
+This setting determines whether and how such catch-up adjustments are applied.
+
+## Settings
+
+| Setting | Description | Principle / Implication |
+| --- | --- | --- |
+| **1 (Default) — No true-up** | No true-up for any change in breakage outlook or SSP. Contract liability is fixed at the amount deferred when consideration is first received. Manual adjustment available under Other Revenue Sources. | When used with Setting 1 (breakage in proportion to redemption), the model naturally adjusts to breakage rate changes over time. Revenue per point = total deferred revenue ÷ total outstanding points. |
+| **2 — True-up for breakage changes** | When the breakage rate is revised (via breakage adjustment input), the model calculates a cumulative catch-up to restate outstanding point liabilities. The difference flows to the income statement in the current period. | Higher breakage estimate = liability release (positive P&L). Lower estimate = liability increase (negative P&L). Not applicable when applied SSP is not adjusted for breakage. |
+| **3 — True-up for SSP changes** | When the applied SSP changes, the model restates liability for all outstanding points at the new SSP. Every point in circulation is remeasured. The difference flows to the income statement as a catch-up adjustment. | Use when liability should always reflect the current best estimate of SSP for all outstanding points. |
+
+<Frame caption="Deferred revenue true-up setting">
+  ![Deferred revenue true-up configuration](/images/user-guide/program-setup/deferred-revenue-true-up.png)
+</Frame>
+
+<AccordionGroup>
+  <Accordion title="Setting 1 — No automatic true-up">
+    Best for programs where estimate changes are absorbed gradually through the evolving revenue-per-point rate rather than as one-period catch-ups.
+  </Accordion>
+  <Accordion title="Setting 2 — Breakage true-up">
+    Requires Applied SSP = Yes (breakage embedded). Select when you want automatic liability restatement whenever a breakage adjustment is entered.
+  </Accordion>
+  <Accordion title="Setting 3 — SSP true-up">
+    Every outstanding point is revalued when SSP changes. A higher SSP produces a liability top-up (P&L charge); a lower SSP produces a release (P&L gain).
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+- [Liability true-up concept](/user-guide/accounting-concepts/liability-true-up)
+- [Breakage levels data](/user-guide/data-categories/breakage-levels)

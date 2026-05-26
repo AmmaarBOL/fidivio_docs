@@ -1,0 +1,305 @@
+---
+title: "Deferred Revenue Dashboard"
+description: "Contract liability ledger calculations — roll-forward, revenue per point, breakage, and true-ups."
+---
+
+The Deferred Revenue Dashboard is the contract liability ledger — the period-by-period accounting for deferred revenue created when loyalty points are issued and released when redeemed or broken.
+
+Every IFRS/GAAP revenue line on the P&L flows from this ledger. These calculations determine exactly when and how much revenue the model recognises.
+
+## Roll-Forward Structure
+
+The Deferred Revenue Dashboard opens with the prior period closing balance, adds new obligations created this period, deducts the revenue released through redemptions and breakage, applies any estimate adjustment, and produces the new closing balance.
+
+```
+  Opening Balance At The Start Of The Period
++ Liability Created
+  ─────────────────────────────────────────────────
+= Liability Balance Before Revenue Recognition
+− Revenue Recognized from Redemptions
+− Revenue Recognized from Breakage
+± Adjustment to Deferred Revenue
+  ─────────────────────────────────────────────────
+= Closing Balance At The End Of The Period
+```
+
+---
+
+## Opening Liability
+
+The opening balance is the contract liability carried into the current period from the prior period. In Period 1 it is the legacy deferred revenue inherited from any prior program (zero for a new program). In all subsequent periods it is the closing balance produced by the previous period.
+
+## Calculating the Opening Liability
+
+```
+Period 1:  = Opening balance input
+Period t:  = Closing Balance of Period t−1
+```
+
+*This linkage — the Closing Balance feeding the Opening Balance of the next period — is what makes the ledger continuous. Every period begins from where the last one ended.*
+
+| Scenario | Value and Behaviour |
+|---|---|
+| **Period 1** | Zero for a new programme. If an existing programme is being transferred in, this equals the deferred revenue balance carried forward from the prior system. |
+| **Periods 2 onwards** | Automatically picks up the prior period closing liability. No manual input is required. |
+
+---
+
+## New Liability Created
+
+Each period, issuing new points creates a new obligation. The line item 'Liability Created' records this addition to the ledger. It is a direct reference to the gross deferred revenue calculated in the liability creation block (Applied SSP × Points Issued).
+
+When points are issued, a liability is created equal to the value of the future performance obligation. The amount depends on the **Applied SSP** — the standalone selling price per point after reflecting the proportion of points expected never to be redeemed (breakage) (when Parameter 4 is set to Option 1).
+
+## Calculating the New Liability Created
+
+```
+Applied SSP × Points issued
+```
+
+Where Applied SSP:
+- P4=1: `Applied SSP = SSP_input × (1 − breakage_rate)`
+- P4=2: `Applied SSP = SSP_input (face value)`
+
+*Parameter 4 determines whether the SSP is adjusted for breakage. Under P4=1 the user enters the face-value SSP and the model scales it down. Under P4=2, no adjustment is made to the SSP for breakage.*
+
+**Exception for Conventional Programs (Parameter 1 = Option 2)**
+
+Total consideration is first allocated between goods and points using relative SSPs (IFRS 15 proportionate allocation). New contract liability = `(points_SSP / total_SSP) × total_consideration`
+
+<Info>
+**Key Point:** The line item 'Liability Created' is the only row that can only increase the liability. Every other movement either reduces it (redemptions, breakage) or adjusts it up or down (Adjustment to Deferred Revenue). A growing liability over time means new obligations are being created faster than existing ones are being discharged.
+</Info>
+
+<Note>
+**Accounting rule (IFRS 77):** The stand-alone selling price is the price at which an entity would sell a promised good or service separately to a customer.
+</Note>
+
+<Note>
+**Accounting rule (IFRS B44):** Upon receipt of a prepayment from a customer, an entity shall recognise a contract liability in the amount of the prepayment for its performance obligation to transfer, or to stand ready to transfer, goods or services in the future. An entity shall derecognise that contract liability (and recognise revenue) when it transfers those goods or services and, therefore, satisfies its performance obligation.
+</Note>
+
+---
+
+## Liability Before Revenue Recognition
+
+Before any revenue is released in the current period, the total pool of deferred obligation must be established. The line item **Liability Balance Before Revenue Recognition** is that subtotal — the sum of the opening balance and the new liability just created.
+
+## Calculating the Liability Before Revenue Recognition
+
+```
+= Opening liability + New liability created
+```
+
+*This figure serves two purposes: it is a subtotal in the roll-forward and the numerator used to compute revenue per point.*
+
+---
+
+## Revenue Recognized per Point
+
+Revenue is released from the contract liability at a uniform rate per point. This rate is recalculated every period and applies to both redemption revenue and breakage income.
+
+## Calculating the Revenue Recognized per Point
+
+```
+rev_per_point = Liability_before_recognition ÷ Total_points_in_circulation
+```
+
+Where:
+- `Liability_before_recognition` = opening_liability + new_liability_this_period
+- `Total_points_in_circulation` = opening_points_balance + points_issued_this_period
+
+The denominator differs by Parameter 3:
+- **P3=1:** total points balance
+- **P3=2:** validity-period adjusted balance
+- **P3=3:** closing points balance
+
+The 'Liability before recognition' feeds directly into the revenue recognised per point calculations as the numerator.
+
+<Info>
+**When can Rev Per Point change?** Rev per point changes when points issued with a different SSP are added to the balance. P2=2 will also change the SSP. Under P2=3, rev per point will be the same as the applied SSP of the previous period.
+</Info>
+
+---
+
+## Revenue Recognized (Points Redeemed)
+
+When members exercise their rights by redeeming points, the corresponding portion of the contract liability is released as revenue. The line item **Revenue Recognized from Points Redemptions** records this release in the ledger and simultaneously feeds the primary IFRS revenue line on the P&L.
+
+## Calculating the Revenue Recognized (Points Redeemed)
+
+```
+= points_redeemed × rev_per_point
+```
+
+Where `rev_per_point = Liability_before_recognition ÷ Total_points_in_circulation`
+
+*The same figure appears twice: as P&L income in the IFRS P&L and as a liability reduction in the roll-forward.*
+
+| Component | Explanation |
+|---|---|
+| **Points redeemed** | Actual redemptions in the period, from the user input. Revenue is only released for points actually redeemed this period. |
+| **Rev per point** | Blends the liability value across all outstanding cohorts. Derived each period. Equals the total contract liability balance before recognition divided by the total points in circulation. As redemptions occur and the liability is released, this rate evolves over time. |
+| **Total_points_in_circulation** | Opening points balance + points issued this period (under P3=1). Represents the full universe of points against which the liability must be allocated. |
+
+<Note>
+**IFRS principle:** Revenue is recognised when the performance obligation is satisfied — when the member redeems. The amount is not simply the SSP of the redeemed point; it is a proportionate share of the total liability at the blended rate, ensuring the entire liability is released exactly as all points exit the system.
+</Note>
+
+<Note>
+**Accounting rule (IFRS 15, paragraphs 35–37):** For each performance obligation satisfied over time, an entity shall recognise revenue over time by measuring the progress towards complete satisfaction of that performance obligation.
+</Note>
+
+---
+
+## Revenue Recognized (Breakage)
+
+The portion of the liability attributable to points expected never to be redeemed — breakage — is also released progressively as revenue. **Revenue Recognized from Breakage** records this release in the ledger. It is recognised alongside redemption revenue, using the same `rev_per_point` rate, but applied to the volume of points that are 'broken' rather than redeemed.
+
+## Calculating the Revenue Recognized (Breakage)
+
+```
+= breakage_points_recognized × rev_per_point
+```
+
+Total breakage points released = breakage_from_projection_or_expiry ± breakage_reconciliation_adjustment (when P3=2)
+
+*Breakage income uses the same Rev_per_point rate as redemption income. Both release the liability at the same per-point rate.*
+
+---
+
+## Calculating Points Considered as Breakage
+
+The volume of breakage points recognized per period depends on Parameter 3.
+
+### Parameter 3 = 1: Proportional to Redemptions (Default)
+
+```
+breakage_pts = points_redeemed × (Total_points_balance − Points_expected_to_be_redeemed)
+               ÷ Points_expected_to_be_redeemed
+```
+
+Where:
+- `Total_points_balance` = opening + issuance (same period)
+- `Points_expected_to_be_redeemed` = cumulative points issued − blended breakage rate − cumulative points redeemed (± breakage_adjustment input)
+
+<Note>
+**Accounting rule (IFRS B64):** If an entity expects to be entitled to a breakage amount in a contract liability, the entity shall recognise the expected breakage amount as revenue in proportion to the pattern of rights exercised by the customer.
+</Note>
+
+### Parameter 3 = 2: Proportional to Validity Period
+
+```
+breakage_pts = (points_issued_in_cohort × breakage_rate) ÷ validity_months
+```
+
+*(summed across all active cohorts in the period)*
+
+*Spreads each cohort's expected breakage evenly over its validity window. Requires a validity period input (months).*
+
+### Parameter 3 = 3: Actual Expiry
+
+```
+Breakage_pts = Points_expired (actual)
+```
+
+*No forward estimate. Breakage income only arises when points are formally removed from member accounts. Periods with no expiry events show zero breakage income.*
+
+<Note>
+**Accounting rule (IFRS B46):** If an entity does not expect to be entitled to a breakage amount, the entity shall recognise the expected breakage amount as revenue when the likelihood of the customer exercising its remaining rights becomes remote.
+</Note>
+
+---
+
+## Breakage Reconciliation Adjustment (P3=2)
+
+An additional reconciliation adjustment is available to correct for any difference between predicted and actual expiry outcomes. It is the `breakage_reconciliation` input, entered in points, and is added to the projection-based breakage volume before converting to income:
+
+```
+breakage_pts (total) = breakage_from_projection + breakage_reconciliation_input
+```
+
+*Note: if the reconciliation causes the point balance to go negative, the model caps the reconciliation at the available balance.*
+
+*Positive reconciliation = more breakage than predicted (additional release). Negative = less breakage than predicted (clawback).*
+
+---
+
+## Adjustment to Deferred Revenue
+
+When estimates change — whether the breakage rate, the SSP, or a manual override — the liability balance may need to be restated. The line item **Adjustment to Deferred Revenue** routes the active adjustment into the roll-forward. It is governed by **Parameter 2** (Deferred Revenue True-up).
+
+Whether this line is populated depends on Parameter 2:
+
+### P2 = 1 — No Automatic True-up (Default)
+
+No catch-up is calculated. The liability balance is not restated for changes in breakage or SSP. A **manual adjustment** field is available for discretionary entries. Estimate changes flow through gradually via the changing `rev_per_point` rate in future periods rather than as a one-period catch-up.
+
+```
+= manual_adjustment_input
+```
+
+*Set to zero unless the operator makes an explicit manual entry.*
+
+### P2 = 2 — True-up for Breakage Rate Change
+
+When the breakage rate for any prior issuance period changes, the model computes the difference between the liability that should have been created under the new rate and the liability actually created. This difference is recognised as a catch-up in the current period:
+
+```
+true_up = breakage_adjustment_pts × Applied_SSP
+```
+
+Where:
+- `breakage_adjustment_pts` = adjustment_to_breakage input (points)
+- Positive input (more breakage expected): liability decreases → positive P&L
+
+*Only applicable when SSP is adjusted for breakage (P4 = 1). Under P4=2, a change in breakage rate does not affect the contract liability level since the full face-value SSP is used regardless.*
+
+### P2 = 3 — True-up for SSP Change
+
+When the Applied SSP changes, all outstanding points are revalued to the new SSP. The entire closing balance of points — regardless of issuance period — is remeasured:
+
+```
+true_up = (outstanding_points × new_Applied_SSP) − current_liability_balance
+```
+
+Where:
+- `outstanding_points` = total points balance (closing, per the points ledger)
+- Higher SSP: outstanding obligation increases → liability tops up → negative P&L
+- Lower SSP: outstanding obligation decreases → liability releases → positive P&L
+
+*This can create significant P&L volatility in periods of SSP revision, as the full stock of outstanding points is revalued simultaneously.*
+
+<Note>
+**Sign convention:** A positive true-up value in the P&L represents a release of liability (revenue). A negative value represents a top-up of liability (charge). In the model, the adjustment is expressed as a debit/credit to the liability account, with the opposite sign flowing to the P&L.
+</Note>
+
+---
+
+## Closing Liability
+
+At the end of the ledger is the **'Closing Balance At The End Of The Period'** — the closing balance of the contract liability for the period. It brings all movements together and carries forward as the next period opening balance.
+
+## Calculating the Closing Liability
+
+```
+Closing_liability = Opening_liability
+                  + New_liability_created
+                  − Revenue_recognized (redemptions)
+                  − Breakage_income
+                  ± True-up_adjustment (if P2 = 2 or 3)
+```
+
+*The closing balance of one period becomes the opening balance of the next. Over the programme lifetime, the balance trends to zero as all points are redeemed, expire, or break.*
+
+| Behaviour | Explanation |
+|---|---|
+| **Growing balance** | New obligations exceed releases. Normal in an expanding programme. |
+| **Stable balance** | Issuances, redemptions, and breakage reach equilibrium. The closing balance is roughly constant from period to period. |
+| **Declining to zero** | Over the full programme life all points exit the system. Cumulative releases equal cumulative additions and the balance reaches zero. |
+
+## Next steps
+
+- [Deferred Revenue and IFRS P&L](/technical-memo/calculations/deferred-revenue-ifrs-relationship)
+- [IFRS / GAAP P&L](/technical-memo/calculations/ifrs-pl)
+

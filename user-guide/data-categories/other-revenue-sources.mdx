@@ -1,0 +1,43 @@
+---
+title: "Other revenue sources"
+sidebarTitle: "Revenue sources"
+description: "Upload non-points revenue earned by the loyalty program."
+---
+
+Other Revenue Sources records non-points income — brand licensing, co-marketing, member data access, or program management fees. Unlike points-related revenue, this income is typically recognised at receipt.
+
+**Location:** Setup & Support → Data Input → Other Revenue Sources
+
+## Pre-configuration required
+
+`revenue_category` and `revenue_item` must be set up before uploading data.
+
+<Steps>
+  <Step title="Go to Add → Manual">
+    Open Other Revenue Sources and click **+ Add → Manual**.
+  </Step>
+  <Step title="Create category">
+    Under **Category**, type the name and click **Create New**.
+  </Step>
+  <Step title="Create item">
+    Repeat under **Item** for the corresponding item entry.
+  </Step>
+</Steps>
+
+<Warning>
+Category and item values must be created first — they cannot be entered during batch data upload.
+</Warning>
+
+## Fields
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `non_currency_revenue` | Monetary value of non-points revenue in this period | Numeric ≥ 0 | Optional |
+| `revenue_category` | High-level category (e.g. Brand & Marketing) | Text | Optional |
+| `revenue_item` | Specific item (e.g. Annual Brand Fee) | Text | Optional |
+| `currency` | Currency of the revenue amount | ISO 4217 | Optional |
+
+## Next steps
+
+- [Program costs](/user-guide/data-categories/program-costs)
+- [Field definitions](/user-guide/reference/field-definitions)

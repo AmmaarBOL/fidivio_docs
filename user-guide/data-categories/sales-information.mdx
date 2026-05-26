@@ -1,0 +1,31 @@
+---
+title: "Sales information"
+description: "Upload contract liability data for conventional model programs."
+---
+
+Sales Information applies only when the program is not run as a profit centre (**Program Type = Conventional Model**).
+
+Inputs determine the standalone selling price of goods associated with a transaction and total consideration received, enabling transaction price allocation between goods and points performance obligations.
+
+**Location:** Setup & Support → Data Input → Sales Information
+
+## When to use
+
+Only required for Conventional Model programs. Leave empty for profit-centre programs. Enter one row per transaction date representing the aggregated position for that period.
+
+<Info>
+Allocation of consideration between goods and points is calculated automatically using the relative standalone selling price method (IFRS 15). The SSP of points is sourced from Breakage Levels data for the same transaction date.
+</Info>
+
+## Fields
+
+| Field | Definition | Format | Required |
+| --- | --- | --- | --- |
+| `partner_code` | Partner for this sales transaction. Must match configured code | Text | Conditional |
+| `contract_liability_associated_goods` | SSP of goods sold in the same period points were issued | Numeric ≥ 0 | Conditional |
+| `total_consideration_goods_and_points` | Total consideration for goods and points combined | Numeric ≥ 0 | Conditional |
+
+## Next steps
+
+- [Program information](/user-guide/program-setup/program-information)
+- [Breakage levels](/user-guide/data-categories/breakage-levels)
